@@ -1,5 +1,7 @@
 package model.servizio;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,11 @@ import org.springframework.stereotype.Service;
 public class ServizioDAO {
 	@Autowired
 	ServizioRepository repository;
+	
+	//Lista di tutti i servizi presenti nel database
+	public List<Servizio> getAll(){
+		return repository.findAll();
+	}
 	
 	//aggiunta di un servizio nel database
 	public void saveService(Servizio servizio) {
@@ -19,11 +26,11 @@ public class ServizioDAO {
 	}
 	
 	//modifica di un servizio dal database
-	public Boolean serviceUpdate(Servizio servizio) throws Exception {
+	public Boolean serviceUpdate(Servizio servizio) {
 		if(repository.updateServizio(servizio.getId(), servizio.getCosto()) > 0)
 			return Boolean.TRUE;
 		else {
-			throw new Exception("Servizio non trovato o inesistente");
+			return Boolean.FALSE;			
 		}
 	}
 

@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,11 +45,23 @@ public class ClientsController {
 	//Aggiornamento dei dati dell'account di un cliente
 	@PostMapping("/clienti/update")
 	public String update(@RequestBody Cliente cliente) {
-		if(clienteDAO.updateClient(cliente) == Boolean.TRUE)
-			return "Account modificato con successo";
+		Cliente cliente1 = clienteDAO.getClienteById(cliente.getId()).orElse(null);
+		if(cliente1 != null) {
+			if(cliente.getEmail() == cliente1.getEmail()) {
+				clienteDAO.updateClient(cliente);
+				return "Account modificato con successo";
+			}
+			else {
+				if(clienteDAO.checkCliente(cliente.getEmail()) == Boolean.FALSE) {
+					clienteDAO.updateClient(cliente);
+					return "Account modificato con successo!";
+				}
+				else
+					return "Email già in uso, modifica account fallita!";
+			}
+		}
 		else
-			return "Modifica account fallita, email gia in uso";
-		
+			return "Utente non trovato!";
 	}
  
 }

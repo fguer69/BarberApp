@@ -13,5 +13,8 @@ public interface DipendenteRepository extends ListCrudRepository<Dipendente, Int
 		@Modifying
 		@Query("update Dipendenti c set c.nome = ?2, c.cognome = ?3, c.email = ?4, c.password = ?5 where c.id = ?1")
 		int updateDipendente(int id, String nome, String cognome, String email, String password);
+		
+		@Query("select Dipendenti d where d.email = ?1")
+		Dipendente checkEmployee(String email);
 
 }

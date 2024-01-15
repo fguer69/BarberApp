@@ -13,5 +13,8 @@ public interface TitolareRepository extends ListCrudRepository<Titolare, Integer
 			@Modifying
 			@Query("update Titolari c set c.nome = ?2, c.cognome = ?3, c.email = ?4, c.password = ?5 where c.id = ?1")
 			int updateTitolari(int id, String nome, String cognome, String email, String password);
+			
+			@Query("select Titolari t where t.email = ?1")
+			Titolare checkTito(String email);
 
 }

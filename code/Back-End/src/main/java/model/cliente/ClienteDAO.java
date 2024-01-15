@@ -2,6 +2,7 @@ package model.cliente;
 
 //import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.util.Streamable;
@@ -11,6 +12,11 @@ import org.springframework.stereotype.Service;
 public class ClienteDAO {
 	@Autowired
 	private ClienteRepository repository;
+	
+	//ricerca di un cliente tramite id
+	public Optional<Cliente> getClienteById(int id) {
+		return repository.findById(id);
+	}
 	
 	//controllo se esiste già un'utente con una determinata email
 	public Boolean checkCliente(String email) {

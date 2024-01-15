@@ -25,25 +25,25 @@ public class ServizioController {
 	
 	//salvataggio di un nuovo servizio nel database
 	@PostMapping("/servizi/save")
-	public String saveServizio(@RequestBody Servizio servizio) {
+	public int saveServizio(@RequestBody Servizio servizio) {
 		servizioDAO.saveService(servizio);
-		return "Servizio salvato con successo";		
+		return 200;
 	}
 	
 	//eliminazione di un servizio dal database
 	@PostMapping("/servizi/delete")
-	public String deleteServizio(@RequestBody Servizio servizio) {
+	public int deleteServizio(@RequestBody Servizio servizio) {
 		servizioDAO.deleteService(servizio);
-		return "Servizio eliminato con successo!";
+		return 200;
 	}
 	
 	//modifica del costo di un servizio presente nel database
 	@PostMapping("/servizi/update")
-	public String updateService(@RequestBody Servizio servizio) {
+	public int updateService(@RequestBody Servizio servizio) {
 		if(servizioDAO.serviceUpdate(servizio) == Boolean.TRUE)
-			return "Servizio modificato con successo!";
+			return 200;
 		else
-			return "Modifica del servizio fallita!, servizio non trovato";
+			return 501;
 	}
 
 }

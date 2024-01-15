@@ -24,42 +24,42 @@ public class TitolareController {
 	
 	//aggiunta di un titolare nel database da parte di un'altro titolare
 	@PostMapping("/titolari/save")
-	public String saveTitolare(@RequestBody Titolare titolare) {
+	public int saveTitolare(@RequestBody Titolare titolare) {
 		if(titolareDAO.checkTitolare(titolare.getEmail()) == Boolean.FALSE) {
 			titolareDAO.saveTitolare(titolare);
-			return "Titolare registrato con successo!";
+			return 200;
 		}
 		else
-			return "Email gia in uso, registrazione fallita!";
+			return 500;
 	}
 	
 	//Eliminazione di un titolare dal sistema
 	@PostMapping("/titolari/delete")
-	public String delete(@RequestBody Titolare titolare) {
+	public int delete(@RequestBody Titolare titolare) {
 		titolareDAO.deleteTitolare(titolare);
-		return "Titolare eliminato con successo!";
+		return 200;
 	}
 	
 	//Aggiornamento dei dati dell'account di un titolare
 	@PostMapping("/titolari/update")
-	public String update(@RequestBody Titolare titolare) {
+	public int update(@RequestBody Titolare titolare) {
 		Titolare titolare1 = titolareDAO.getTitolareById(titolare.getId()).orElse(null);
 		if(titolare1 != null) {
 			if(titolare.getEmail() == titolare1.getEmail()) {
 				titolareDAO.updateTitolare(titolare);
-				return "Account modificato con successo";
+				return 200;
 			}
 		else {
 			if(titolareDAO.checkTitolare(titolare.getEmail()) == Boolean.FALSE) {
 				titolareDAO.updateTitolare(titolare);
-				return "Account modificato con successo";
+				return 200;
 			}
 			else
-				return "Email già in uso, modifica account fallita!";
+				return 500;
 		}
 	}
 	else
-		return "Titolare non trovato!";
+		return 501;
 	}
 
 }

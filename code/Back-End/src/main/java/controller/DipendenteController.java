@@ -25,42 +25,42 @@ public class DipendenteController {
 	
 	//registrazione di un nuovo dipendente nel sistema
 	@PostMapping("/dipendenti/save")
-	public String saveEmployee(@RequestBody Dipendente dipendente) {
+	public int saveEmployee(@RequestBody Dipendente dipendente) {
 		if(dipendenteDAO.checkDipendente(dipendente.getEmail()) == Boolean.FALSE) {
 			dipendenteDAO.saveDipendente(dipendente);
-			return "Dipendente registrato con successo!";
+			return 200;
 		}
 		else
-			return "Email già in uso, registrazione dipendente fallita!";
+			return 500;
 	}
 	
 	//Eliminazione di un dipendente dal sistema
 	@PostMapping("/dipendenti/delete")
-	public String delete(@RequestBody Dipendente dipendente) {
+	public int delete(@RequestBody Dipendente dipendente) {
 		dipendenteDAO.deleteDipendente(dipendente);
-		return "Dipendente eliminato con successo!";
+		return 200;
 	}
 	
 	//Aggiornamento dei dati dell'account di un dipendente
 	@PostMapping("/dipendenti/update")
-	public String update(@RequestBody Dipendente dipendente) {
+	public int update(@RequestBody Dipendente dipendente) {
 		Dipendente dipendente1 = dipendenteDAO.getDipendenteById(dipendente.getId()).orElse(null);
 		if(dipendente1 != null) {
 			if(dipendente.getEmail() == dipendente1.getEmail()) {
 				dipendenteDAO.updateEmployee(dipendente);
-				return "Account modificato con successo";
+				return 200;
 			}
 			else {
 				if(dipendenteDAO.checkDipendente(dipendente.getEmail()) == Boolean.FALSE) {
 					dipendenteDAO.updateEmployee(dipendente);
-					return "Account modificato con successo!";
+					return 200;
 				}
 				else
-					return "Email gia in uso, modifica account fallita!";
+					return 500;
 			}
 		}
 		else
-			return "Utente non trovato!";
+			return 501;
 	}
 
 }

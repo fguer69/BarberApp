@@ -25,15 +25,15 @@ public class AppuntamentoController {
 	
 	//Salvataggio di un'appuntamento sul database
 	@PostMapping("/appuntamenti/save")
-	public String saveAppuntamento(@RequestBody Appuntamento appuntamento) {
+	public int saveAppuntamento(@RequestBody Appuntamento appuntamento) {
 		appuntamentoDAO.saveAppointment(appuntamento);
-		return "Appuntamento salvato con successo!";
+		return 200;
 	}
 
 	//rimozione di un appuntamento dal database
 	@PostMapping("/appuntamenti/delete")
-	public String removeAppointment(@RequestBody Appuntamento appuntamento) {
+	public int removeAppointment(@RequestBody Appuntamento appuntamento) {
 		appuntamentoDAO.deleteAppointment(appuntamento);
-		return "Appuntamento rimosso con successo!";
+		return 200;
 	}
 }

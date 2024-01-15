@@ -26,42 +26,42 @@ public class ClientsController {
 	
 	//registrazione di un'utente nel sistema
 	@PostMapping("/clienti/save")
-	public String save(@RequestBody Cliente cliente) {
+	public int save(@RequestBody Cliente cliente) {
 		if(clienteDAO.checkCliente(cliente.getEmail()) == Boolean.FALSE) {
 			clienteDAO.saveCliente(cliente);
-			return "Cliente registrato con successo!";
+			return 200;
 		}
 		else
-			return "Email già in uso, registrazione fallita!";
+			return 500;
 	}
 	
 	//Eliminazione di un'utente dal sistema
 	@PostMapping("/clienti/delete")
-	public String delete(@RequestBody Cliente cliente) {
+	public int delete(@RequestBody Cliente cliente) {
 			clienteDAO.deleteCliente(cliente);
-			return "Account eliminato con successo!";
+			return 200;
 	}
 	
 	//Aggiornamento dei dati dell'account di un cliente
 	@PostMapping("/clienti/update")
-	public String update(@RequestBody Cliente cliente) {
+	public int update(@RequestBody Cliente cliente) {
 		Cliente cliente1 = clienteDAO.getClienteById(cliente.getId()).orElse(null);
 		if(cliente1 != null) {
 			if(cliente.getEmail() == cliente1.getEmail()) {
 				clienteDAO.updateClient(cliente);
-				return "Account modificato con successo";
+				return 200;
 			}
 			else {
 				if(clienteDAO.checkCliente(cliente.getEmail()) == Boolean.FALSE) {
 					clienteDAO.updateClient(cliente);
-					return "Account modificato con successo!";
+					return 200;
 				}
 				else
-					return "Email già in uso, modifica account fallita!";
+					return 500;
 			}
 		}
 		else
-			return "Utente non trovato!";
+			return 501;
 	}
  
 }

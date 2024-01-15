@@ -1,9 +1,13 @@
 package model.cliente;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import model.appuntamento.Appuntamento;
@@ -18,9 +22,8 @@ public class Cliente {
 				   cognome,
 				   email,
 				   password;
-	@OneToOne
-	@JoinColumn(name = "appuntamento_id")
-	private Appuntamento appuntamento;
+	@OneToMany(mappedBy = "cliente")
+	private List<Appuntamento> appuntamenti;
 	
 	
 	public int getId() {
@@ -56,8 +59,9 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return "Cliente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
-				+ password + ", appuntamento=" + appuntamento + "]";
+				+ password + ", appuntamenti=" + appuntamenti + "]";
 	}
+	
 	
 	
 	

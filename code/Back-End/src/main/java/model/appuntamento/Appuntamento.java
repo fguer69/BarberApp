@@ -22,8 +22,9 @@ public class Appuntamento {
 	private int id;
 	private LocalDate date;
 	private LocalTime time;
-	private Boolean flag;
-	@OneToOne(mappedBy = "appuntamento")
+	//private Boolean flag;
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	@ManyToOne
 	@JoinColumn(name = "dipendente_id")
@@ -66,15 +67,15 @@ public class Appuntamento {
 		this.cliente = cliente;
 	}
 	
-	public Boolean getFlag() {
+	/*public Boolean getFlag() {
 		return flag;
-	}
-	public void setFlag(Boolean flag) {
+	}*/
+	/*public void setFlag(Boolean flag) {
 		this.flag = flag;
-	}
+	}*/
 	@Override
 	public String toString() {
-		return "Appuntamento [id=" + id + ", date=" + date + ", time=" + time + ", flag=" + flag + ", cliente="
+		return "Appuntamento [id=" + id + ", date=" + date + ", time=" + time + ", cliente="
 				+ cliente + ", dipendente=" + dipendente + ", titolare=" + titolare + ", servizio=" + servizio + "]";
 	}
 	

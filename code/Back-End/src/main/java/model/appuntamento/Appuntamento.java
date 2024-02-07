@@ -68,6 +68,19 @@ public class Appuntamento {
 		this.cliente = cliente;
 	}
 	
+	
+	public Titolare getTitolare() {
+		return titolare;
+	}
+	public void setTitolare(Titolare titolare) {
+		this.titolare = titolare;
+	}
+	public Servizio getServizio() {
+		return servizio;
+	}
+	public void setServizio(Servizio servizio) {
+		this.servizio = servizio;
+	}
 	/*public Boolean getFlag() {
 		return flag;
 	}*/

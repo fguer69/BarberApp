@@ -42,6 +42,14 @@ public class ClientsController {
 			return 200;
 	}
 	
+	//Check cliente-email
+	@PostMapping("/cliente/check")
+	public int check(@RequestBody String email) {
+		if(clienteDAO.checkCliente(email) == Boolean.FALSE)
+			return 200;
+		else return 500;
+	}
+	
 	//Aggiornamento dei dati dell'account di un cliente
 	@PostMapping("/clienti/update")
 	public int update(@RequestBody Cliente cliente) {

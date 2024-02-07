@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import model.dipendente.Dipendente;
 import model.dipendente.DipendenteDAO;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 @RestController
 public class DipendenteController {
@@ -61,6 +62,12 @@ public class DipendenteController {
 		}
 		else
 			return 501;
+	}
+	//Visualizzazione di tutti i dipendenti disponibili per una determinata data e ora
+	@PostMapping("/dipendenti/dipendentiDisponibili")
+	public List<Dipendente> getDipendentiByDate(@RequestBody DateTime data, @RequestBody DateTime ora){
+		return dipendenteDAO.getEmployeeByDate(data, ora);
+		
 	}
 
 }

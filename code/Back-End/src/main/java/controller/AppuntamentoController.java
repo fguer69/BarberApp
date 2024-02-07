@@ -26,8 +26,12 @@ public class AppuntamentoController {
 	//Salvataggio di un'appuntamento sul database
 	@PostMapping("/appuntamenti/save")
 	public int saveAppuntamento(@RequestBody Appuntamento appuntamento) {
-		appuntamentoDAO.saveAppointment(appuntamento);
-		return 200;
+		if(appuntamentoDAO.checkAppuntamento(appuntamento.getCliente(), appuntamento) <= 0) {
+			appuntamentoDAO.saveAppointment(appuntamento);
+			return 200;
+		}
+		else
+			return 500;
 	}
 
 	//rimozione di un appuntamento dal database

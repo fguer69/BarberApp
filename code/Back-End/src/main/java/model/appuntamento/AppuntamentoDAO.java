@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.cliente.Cliente;
+
 @Service
 public class AppuntamentoDAO {
 	@Autowired
@@ -30,6 +32,10 @@ public class AppuntamentoDAO {
 	public void updateAppointment(Appuntamento appuntamento) {
 		
 	}*/
+	
+	public int checkAppuntamento(Cliente cliente,Appuntamento appuntamento) {
+		return repository.checkAppuntamento(cliente.getId(), appuntamento.getDate());
+	}
 
 
 }

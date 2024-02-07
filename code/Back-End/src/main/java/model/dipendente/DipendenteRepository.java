@@ -1,8 +1,12 @@
 package model.dipendente;
 
+import java.util.List;
+
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
+
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 public interface DipendenteRepository extends ListCrudRepository<Dipendente, Integer> {
 	
@@ -16,5 +20,9 @@ public interface DipendenteRepository extends ListCrudRepository<Dipendente, Int
 		
 		@Query("select Dipendenti d where d.email = ?1")
 		Dipendente checkEmployee(String email);
+		
+		//Query per la selezione dei dipendenti che non hanno appuntamenti in un determinato orario di una determinata data
+		@Query("select * from Dipendenti where id not in (select d.id from Dipendenti d inner join Appuntamenti a on d.id = a.dipendente_id where date(a.date) = ?1 and hour(a.time) = ?2)")
+		List<Dipendente> selectDipendentiByAppuntamento(DateTime data, DateTime ora);
 
 }

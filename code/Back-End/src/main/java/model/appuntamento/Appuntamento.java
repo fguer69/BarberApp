@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import model.dipendente.*;
 import model.servizio.Servizio;
 import model.titolare.Titolare;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,8 +21,8 @@ public class Appuntamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private LocalDate date;
-	private LocalTime time;
+	private DateTime date;
+	private DateTime time;
 	//private Boolean flag;
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -42,16 +43,16 @@ public class Appuntamento {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public LocalDate getDate() {
+	public DateTime getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(DateTime date) {
 		this.date = date;
 	}
-	public LocalTime getTime() {
+	public DateTime getTime() {
 		return time;
 	}
-	public void setTime(LocalTime time) {
+	public void setTime(DateTime time) {
 		this.time = time;
 	}
 	public Dipendente getEmployee() {

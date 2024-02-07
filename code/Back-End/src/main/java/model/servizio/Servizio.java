@@ -20,6 +20,7 @@ public class Servizio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String tipo;
+	private String assetImage;
 	private Double costo;
 	@OneToMany(mappedBy = "servizio")
 	private List<Appuntamento> appuntamenti;
@@ -44,6 +45,13 @@ public class Servizio {
 	}
 	public void setCosto(Double costo) {
 		this.costo = costo;
+	}
+	
+	public String getAssetImage() {
+		return assetImage;
+	}
+	public void setAssetImage(String assetImage) {
+		this.assetImage = assetImage;
 	}
 	@Override
 	public String toString() {

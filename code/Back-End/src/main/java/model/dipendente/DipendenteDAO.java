@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
+
 @Service
 public class DipendenteDAO {
 	@Autowired
@@ -47,5 +49,9 @@ public class DipendenteDAO {
 			return Boolean.FALSE;
 		}
 		
+	}
+	//elenco di tutti i dipendenti disponibili per una determinata data ed una determinata ora
+	public List<Dipendente> getEmployeeByDate(DateTime data, DateTime ora){
+		return repository.selectDipendentiByAppuntamento(data, ora);
 	}
 }

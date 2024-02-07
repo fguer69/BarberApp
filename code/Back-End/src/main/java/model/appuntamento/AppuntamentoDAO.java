@@ -36,6 +36,11 @@ public class AppuntamentoDAO {
 	public int checkAppuntamento(Cliente cliente,Appuntamento appuntamento) {
 		return repository.checkAppuntamento(cliente.getId(), appuntamento.getDate());
 	}
+	
+	//Ritorno di una lista di appuntamenti di un determinato cliente
+	public List<Appuntamento> getAppuntamentiByCliente(Cliente cliente){
+		return repository.getAppuntamentiByCliente(cliente.getId());
+	}
 
 
 }

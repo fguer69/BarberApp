@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import model.appuntamento.Appuntamento;
 import model.appuntamento.AppuntamentoDAO;
+import model.cliente.Cliente;
 
 @RestController
 public class AppuntamentoController {
@@ -40,4 +41,9 @@ public class AppuntamentoController {
 		appuntamentoDAO.deleteAppointment(appuntamento);
 		return 200;
 	}
+	//ritorno degli appuntamenti di un cliente
+		@PostMapping("/appuntamenti/getAppointment-ByCliente")
+		public List<Appuntamento> getAppointment(@RequestBody Cliente cliente){
+			return appuntamentoDAO.getAppuntamentiByCliente(cliente);						
+		}
 }

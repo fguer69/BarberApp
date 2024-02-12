@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import model.appuntamento.Appuntamento;
 import model.cliente.Cliente;
 import model.cliente.ClienteDAO;
+import model.titolare.Titolare;
 
 @RestController
 public class ClientsController {
@@ -71,6 +72,12 @@ public class ClientsController {
 		}
 		else
 			return 501;
+	}
+	
+	//login
+	@PostMapping("/clienti/login")
+	public Optional<Cliente> login(@RequestBody String email, String password){
+		return clienteDAO.loginCliente(email, password);
 	}
 	
 	

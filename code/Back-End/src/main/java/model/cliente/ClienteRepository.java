@@ -1,9 +1,13 @@
 package model.cliente;
+import java.util.Optional;
+
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 //import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
+
+import model.titolare.Titolare;
 
 @Repository
 public interface ClienteRepository extends ListCrudRepository<Cliente, Integer>{
@@ -18,6 +22,10 @@ public interface ClienteRepository extends ListCrudRepository<Cliente, Integer>{
 	
 	@Query("select Clienti c where c.email = ?1")
 	Cliente checkClient(String email);
+	
+	//login di un cliente
+	@Query("select Clienti c where c.email = ?1 and c.password = ?2")
+	Optional<Cliente> login(String email, String password);
 	
 
 }

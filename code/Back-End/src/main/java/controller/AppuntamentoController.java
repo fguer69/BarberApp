@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import model.appuntamento.Appuntamento;
 import model.appuntamento.AppuntamentoDAO;
 import model.cliente.Cliente;
+import model.dipendente.Dipendente;
 
 @RestController
 public class AppuntamentoController {
@@ -45,5 +46,16 @@ public class AppuntamentoController {
 		@PostMapping("/appuntamenti/getAppointment-ByCliente")
 		public List<Appuntamento> getAppointment(@RequestBody Cliente cliente){
 			return appuntamentoDAO.getAppuntamentiByCliente(cliente);						
+		}
+		
+		//ritorno degli appuntamenti di un dipendente
+		@PostMapping("/appuntamenti/getAppointment-ByDipendente")
+		public List<Appuntamento> getAppointmentByDipendente(@RequestBody Dipendente dipendente){
+			return appuntamentoDAO.getAppuntamentiByDipendente(dipendente);						
+		}
+		//Visualizzazione di tutti gli appuntamenti nel sistema ordinati per data e ora
+		@GetMapping("/appuntamenti/get-all-appuntamenti")
+		public List<Appuntamento> getAllAppuntamentiByDataOra(){
+			return appuntamentoDAO.getAllAppuntamenti();
 		}
 }

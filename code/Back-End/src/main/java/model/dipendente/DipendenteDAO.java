@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.cliente.Cliente;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 @Service
@@ -54,4 +55,10 @@ public class DipendenteDAO {
 	public List<Dipendente> getEmployeeByDate(DateTime data, DateTime ora){
 		return repository.selectDipendentiByAppuntamento(data, ora);
 	}
+	
+	//login di un dipendente
+	//login
+		public Optional<Dipendente> loginDipendente(String email, String password) {
+			return repository.login(email, password);		
+		}
 }

@@ -1,5 +1,7 @@
 package model.titolare;
 
+import java.util.Optional;
+
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
@@ -16,5 +18,9 @@ public interface TitolareRepository extends ListCrudRepository<Titolare, Integer
 			
 			@Query("select Titolari t where t.email = ?1")
 			Titolare checkTito(String email);
+			
+			//login di un titolare
+			@Query("select Titolari t where t.email = ?1 and t.password = ?2")
+			Optional<Titolare> login(String email, String password);
 
 }

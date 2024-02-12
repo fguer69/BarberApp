@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.cliente.Cliente;
+import model.dipendente.Dipendente;
 
 @Service
 public class AppuntamentoDAO {
@@ -40,6 +41,16 @@ public class AppuntamentoDAO {
 	//Ritorno di una lista di appuntamenti di un determinato cliente
 	public List<Appuntamento> getAppuntamentiByCliente(Cliente cliente){
 		return repository.getAppuntamentiByCliente(cliente.getId());
+	}
+	
+	//Ritorno di una lista di appuntamenti di un determinato dipendente
+	public List<Appuntamento> getAppuntamentiByDipendente(Dipendente dipendente){
+		return repository.getAppuntamentiByDipendente(dipendente.getId());
+	}
+	
+	//Ritorno della lista completa degli appuntamenti ordinata per data e orario
+	public List<Appuntamento> getAllAppuntamenti(){
+		return repository.getAppuntamentiTitolare();
 	}
 
 

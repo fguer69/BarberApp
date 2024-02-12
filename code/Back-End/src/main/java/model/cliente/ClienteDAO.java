@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
+import model.titolare.Titolare;
+
 @Service
 public class ClienteDAO {
 	@Autowired
@@ -48,6 +50,11 @@ public class ClienteDAO {
 		else {
 			return Boolean.FALSE;
 		}
+	}
+	
+	//login
+	public Optional<Cliente> loginCliente(String email, String password) {
+		return repository.login(email, password);		
 	}
 
 }

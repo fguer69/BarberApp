@@ -49,5 +49,10 @@ public class TitolareDAO {
 			return Boolean.FALSE;
 		}
 	}
+	
+	//Login di un titolare
+	public Optional<Titolare> loginTitolare(String email, String password) {
+		return repository.login(email, password);		
+	}
 
 }

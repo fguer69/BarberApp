@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,14 @@ public class TitolareController {
 		return 200;
 	}
 	
+	//Check dipendente-email
+			@PostMapping("/titolari/check")
+			public int check(@RequestBody String email) {
+				if(titolareDAO.checkTitolare(email) == Boolean.FALSE)
+					return 200;
+				else return 500;
+			}
+	
 	//Aggiornamento dei dati dell'account di un titolare
 	@PostMapping("/titolari/update")
 	public int update(@RequestBody Titolare titolare) {
@@ -60,6 +69,12 @@ public class TitolareController {
 	}
 	else
 		return 501;
+	}
+	
+	//login
+	@PostMapping("/titolari/login")
+	public Optional<Titolare> login(@RequestBody String email, String password){
+		return titolareDAO.loginTitolare(email, password);
 	}
 
 }

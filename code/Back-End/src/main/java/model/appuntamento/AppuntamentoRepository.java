@@ -17,6 +17,12 @@ public interface AppuntamentoRepository extends ListCrudRepository<Appuntamento,
 	@Query("select * from Appuntamenti where cliente_id = ?1 order by date, time")
 	List<Appuntamento> getAppuntamentiByCliente(int ClienteId);
 	
+	@Query("select * from Appuntamenti where dipendente_id = ?1 order by date, time")
+	List<Appuntamento> getAppuntamentiByDipendente(int DipendenteId);
+	
+	@Query("select * from Appuntamenti order by date, time")
+	List<Appuntamento> getAppuntamentiTitolare();
+	
 	
 
 }

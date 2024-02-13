@@ -1,10 +1,12 @@
-package model.appuntamento;
+package com.BarberApp.BackEnd.model.appuntamento;
 import java.time.LocalDate;
-import model.cliente.Cliente;
 import java.time.LocalTime;
-import model.dipendente.*;
-import model.servizio.Servizio;
-import model.titolare.Titolare;
+
+import com.BarberApp.BackEnd.model.cliente.Cliente;
+import com.BarberApp.BackEnd.model.dipendente.*;
+import com.BarberApp.BackEnd.model.servizio.Servizio;
+import com.BarberApp.BackEnd.model.titolare.Titolare;
+
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

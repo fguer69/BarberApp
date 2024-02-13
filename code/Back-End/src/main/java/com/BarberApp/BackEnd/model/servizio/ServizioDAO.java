@@ -1,4 +1,4 @@
-package model.servizio;
+package com.BarberApp.BackEnd.model.servizio;
 
 import java.util.List;
 
@@ -27,7 +27,8 @@ public class ServizioDAO {
 	
 	//modifica di un servizio dal database
 	public Boolean serviceUpdate(Servizio servizio) {
-		if(repository.updateServizio(servizio.getId(), servizio.getCosto()) > 0)
+		Integer servizioID = servizio.getId();
+		if(repository.findByIdAndCosto(servizioID, servizio.getCosto()) > 0)
 			return Boolean.TRUE;
 		else {
 			return Boolean.FALSE;			

@@ -1,4 +1,4 @@
-package model.cliente;
+package com.BarberApp.BackEnd.model.cliente;
 
 //import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
-import model.titolare.Titolare;
+import com.BarberApp.BackEnd.model.titolare.Titolare;
 
 @Service
 public class ClienteDAO {
@@ -17,12 +17,13 @@ public class ClienteDAO {
 	
 	//ricerca di un cliente tramite id
 	public Optional<Cliente> getClienteById(int id) {
-		return repository.findById(id);
+		Integer ID = id;
+		return repository.findById(ID);
 	}
 	
 	//controllo se esiste già un'utente con una determinata email
 	public Boolean checkCliente(String email) {
-		if(repository.checkClient(email) == null)
+		if(repository.getClienteByEmail(email) == null)
 			return Boolean.FALSE;
 		else
 			return Boolean.TRUE;
@@ -45,7 +46,8 @@ public class ClienteDAO {
 	
 	//aggiornamento dati utente
 	public Boolean updateClient(Cliente cliente){
-		if(repository.updateCliente(cliente.getId(), cliente.getNome(), cliente.getCognome(), cliente.getEmail(), cliente.getPassword()) > 0)
+		Integer clienteID = cliente.getId();
+		if(repository.findByIdAndNomeAndCognomeAndEmailAndPassword(clienteID, cliente.getNome(), cliente.getCognome(), cliente.getEmail(), cliente.getPassword()) > 0)
 			return Boolean.TRUE;
 		else {
 			return Boolean.FALSE;
@@ -54,7 +56,7 @@ public class ClienteDAO {
 	
 	//login
 	public Optional<Cliente> loginCliente(String email, String password) {
-		return repository.login(email, password);		
+		return repository.getClienteByEmailAndPassword(email, password);		
 	}
 
 }

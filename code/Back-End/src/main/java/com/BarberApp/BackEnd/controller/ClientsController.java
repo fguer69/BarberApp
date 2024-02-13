@@ -1,4 +1,4 @@
-package controller;
+package com.BarberApp.BackEnd.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.appuntamento.Appuntamento;
-import model.cliente.Cliente;
-import model.cliente.ClienteDAO;
-import model.titolare.Titolare;
+import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
+import com.BarberApp.BackEnd.model.cliente.Cliente;
+import com.BarberApp.BackEnd.model.cliente.ClienteDAO;
+import com.BarberApp.BackEnd.model.titolare.Titolare;
 
 @RestController
 public class ClientsController {

@@ -1,4 +1,4 @@
-package controller;
+package com.BarberApp.BackEnd.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.titolare.Titolare;
-import model.titolare.TitolareDAO;
+import com.BarberApp.BackEnd.model.titolare.Titolare;
+import com.BarberApp.BackEnd.model.titolare.TitolareDAO;
 
 @RestController
 public class TitolareController {

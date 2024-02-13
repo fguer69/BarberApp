@@ -1,4 +1,4 @@
-package model.titolare;
+package com.BarberApp.BackEnd.model.titolare;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,12 +15,13 @@ public class TitolareDAO {
 	
 	//ricerca di un titolare tramite id
 	public Optional<Titolare> getTitolareById(int id){
-		return repository.findById(id);
+		Integer titolareID = id;
+		return repository.findById(titolareID);
 	}
 	
 	//controllo se esiste già un'utente con una determinata email
 	public Boolean checkTitolare(String email) {
-		if(repository.checkTito(email) == null)
+		if(repository.getTitolareByEmail(email) == null)
 			return Boolean.FALSE;
 		else
 			return Boolean.TRUE;
@@ -43,7 +44,8 @@ public class TitolareDAO {
 	
 	//Modifica dei dati di un titolare nel database
 	public Boolean updateTitolare(Titolare titolare) {
-		if(repository.updateTitolari(titolare.getId(), titolare.getNome(), titolare.getCognome(), titolare.getEmail(), titolare.getPassword()) > 0)
+		Integer titolareID = titolare.getId();
+		if(repository.findByIdAndNomeAndCognomeAndEmailAndPassword(titolareID, titolare.getNome(), titolare.getCognome(), titolare.getEmail(), titolare.getPassword()) > 0)
 			return Boolean.TRUE;
 		else {
 			return Boolean.FALSE;
@@ -52,7 +54,7 @@ public class TitolareDAO {
 	
 	//Login di un titolare
 	public Optional<Titolare> loginTitolare(String email, String password) {
-		return repository.login(email, password);		
+		return repository.getTitolareByEmailAndPassword(email, password);		
 	}
 
 }

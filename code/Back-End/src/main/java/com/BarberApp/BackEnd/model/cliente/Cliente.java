@@ -1,18 +1,22 @@
-package model.dipendente;
+package com.BarberApp.BackEnd.model.cliente;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import model.appuntamento.Appuntamento;
-
 
 @Entity
-@Table(name = "Dipendenti")
-public class Dipendente {
+@Table(name = "Clienti")
+public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -20,8 +24,9 @@ public class Dipendente {
 				   cognome,
 				   email,
 				   password;
-	@OneToMany(mappedBy = "dipendente")
+	@OneToMany(mappedBy = "cliente")
 	private List<Appuntamento> appuntamenti;
+	
 	
 	public int getId() {
 		return id;
@@ -55,10 +60,13 @@ public class Dipendente {
 	}
 	@Override
 	public String toString() {
-		return "Dipendente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
+		return "Cliente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
 				+ password + ", appuntamenti=" + appuntamenti + "]";
 	}
 	
 	
+	
+	
+				   
 
 }

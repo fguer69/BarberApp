@@ -1,4 +1,4 @@
-package controller;
+package com.BarberApp.BackEnd.controller;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.servizio.Servizio;
-import model.servizio.ServizioDAO;
+import com.BarberApp.BackEnd.model.servizio.Servizio;
+import com.BarberApp.BackEnd.model.servizio.ServizioDAO;
 
 @RestController
 public class ServizioController {

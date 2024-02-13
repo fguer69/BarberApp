@@ -1,5 +1,6 @@
-package controller;
+package com.BarberApp.BackEnd.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.appuntamento.Appuntamento;
-import model.appuntamento.AppuntamentoDAO;
-import model.cliente.Cliente;
-import model.dipendente.Dipendente;
+import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
+import com.BarberApp.BackEnd.model.appuntamento.AppuntamentoDAO;
+import com.BarberApp.BackEnd.model.cliente.Cliente;
+import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 
 @RestController
 public class AppuntamentoController {
@@ -55,7 +56,7 @@ public class AppuntamentoController {
 		}
 		//Visualizzazione di tutti gli appuntamenti nel sistema ordinati per data e ora
 		@GetMapping("/appuntamenti/get-all-appuntamenti")
-		public List<Appuntamento> getAllAppuntamentiByDataOra(){
-			return appuntamentoDAO.getAllAppuntamenti();
+		public List<Appuntamento> getAllAppuntamentiOrdered(){
+			return appuntamentoDAO.getAppuntamentiOrdered();
 		}
 }

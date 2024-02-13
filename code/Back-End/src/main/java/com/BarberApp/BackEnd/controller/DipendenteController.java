@@ -1,4 +1,4 @@
-package controller;
+package com.BarberApp.BackEnd.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.cliente.Cliente;
-import model.dipendente.Dipendente;
-import model.dipendente.DipendenteDAO;
+import com.BarberApp.BackEnd.model.cliente.Cliente;
+import com.BarberApp.BackEnd.model.dipendente.Dipendente;
+import com.BarberApp.BackEnd.model.dipendente.DipendenteDAO;
+
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 @RestController

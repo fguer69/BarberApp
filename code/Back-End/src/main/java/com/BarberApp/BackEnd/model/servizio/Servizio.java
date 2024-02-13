@@ -1,6 +1,10 @@
-package model.servizio;
+package com.BarberApp.BackEnd.model.servizio;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
+import com.BarberApp.BackEnd.model.titolare.Titolare;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,8 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import model.appuntamento.Appuntamento;
-import model.titolare.Titolare;
 
 @Entity
 @Table(name = "Servizi")

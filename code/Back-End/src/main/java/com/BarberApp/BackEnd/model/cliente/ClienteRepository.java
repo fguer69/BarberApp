@@ -1,4 +1,4 @@
-package model.cliente;
+package com.BarberApp.BackEnd.model.cliente;
 import java.util.Optional;
 
 import org.springframework.data.jdbc.repository.query.Modifying;
@@ -7,7 +7,7 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
-import model.titolare.Titolare;
+import com.BarberApp.BackEnd.model.titolare.Titolare;
 
 @Repository
 public interface ClienteRepository extends ListCrudRepository<Cliente, Integer>{
@@ -17,15 +17,15 @@ public interface ClienteRepository extends ListCrudRepository<Cliente, Integer>{
 	//Modificati con successo. Se il numero è =0 significa che l'utente non è stato trovato
 	//O che l'email inserita è gia stata usata da un'atro utente
 	@Modifying
-	@Query("update Clienti c set c.nome = ?2, c.cognome = ?3, c.email = ?4, c.password = ?5 where c.id = ?1")
-	int updateCliente(int id, String nome, String cognome, String email, String password);
+	@Query("UPDATE Clienti c SET c.nome = ?2, c.cognome = ?3, c.email = ?4, c.password = ?5 WHERE c.id = ?1")
+	int findByIdAndNomeAndCognomeAndEmailAndPassword(Integer id, String nome, String cognome, String email, String password);
 	
-	@Query("select Clienti c where c.email = ?1")
-	Cliente checkClient(String email);
+	@Query("SELECT Clienti c WHERE c.email = ?1")
+	Cliente getClienteByEmail(String email);
 	
 	//login di un cliente
-	@Query("select Clienti c where c.email = ?1 and c.password = ?2")
-	Optional<Cliente> login(String email, String password);
+	@Query("SELECT Clienti c WHERE c.email = ?1 AND c.password = ?2")
+	Optional<Cliente> getClienteByEmailAndPassword(String email, String password);
 	
 
 }

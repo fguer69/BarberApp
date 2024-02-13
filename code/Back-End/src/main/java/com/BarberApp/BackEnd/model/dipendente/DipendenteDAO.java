@@ -1,4 +1,4 @@
-package model.dipendente;
+package com.BarberApp.BackEnd.model.dipendente;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import model.cliente.Cliente;
+import com.BarberApp.BackEnd.model.cliente.Cliente;
+
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 @Service
@@ -16,12 +17,13 @@ public class DipendenteDAO {
 	
 	//Ricerca di un dipendente tramite id
 	public Optional<Dipendente> getDipendenteById(int id){
-		return repository.findById(id);
+		Integer dipendenteID = id;
+		return repository.findById(dipendenteID);
 	}
 	
 	//controllo se esiste gia un dipendente con una determinata email
 	public Boolean checkDipendente(String email) {
-		if(repository.checkEmployee(email) == null)
+		if(repository.findByEmail(email) == null)
 			return Boolean.FALSE;
 		else
 			return Boolean.TRUE;
@@ -44,7 +46,8 @@ public class DipendenteDAO {
 	
 	//aggiornamento informazioni personali di un dipendente
 	public Boolean updateEmployee(Dipendente dipendente){
-		if(repository.updateDipendente(dipendente.getId(), dipendente.getNome(), dipendente.getCognome(), dipendente.getEmail(), dipendente.getPassword()) > 0)
+		Integer dipendenteID = dipendente.getId();
+		if(repository.findByIdAndNomeAndCognomeAndEmailAndPassword(dipendenteID, dipendente.getNome(), dipendente.getCognome(), dipendente.getEmail(), dipendente.getPassword()) > 0)
 			return Boolean.TRUE;
 		else {
 			return Boolean.FALSE;
@@ -53,12 +56,12 @@ public class DipendenteDAO {
 	}
 	//elenco di tutti i dipendenti disponibili per una determinata data ed una determinata ora
 	public List<Dipendente> getEmployeeByDate(DateTime data, DateTime ora){
-		return repository.selectDipendentiByAppuntamento(data, ora);
+		return repository.findAllByAppuntamentiAndNome(data, ora);
 	}
 	
 	//login di un dipendente
 	//login
 		public Optional<Dipendente> loginDipendente(String email, String password) {
-			return repository.login(email, password);		
+			return repository.getDipendenteByEmailAndPassword(email, password);		
 		}
 }

@@ -1,6 +1,10 @@
-package model.titolare;
+package com.BarberApp.BackEnd.model.titolare;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
+import com.BarberApp.BackEnd.model.servizio.Servizio;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import model.appuntamento.Appuntamento;
-import model.servizio.Servizio;
 
 @Entity
 @Table(name = "Titolari")

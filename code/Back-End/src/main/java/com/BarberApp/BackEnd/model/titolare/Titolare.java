@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Titolari")
+@Table(name = "titolari")
 public class Titolare {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,13 +58,17 @@ public class Titolare {
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
+
 	@Override
 	public String toString() {
-		return "Titolare [id=" + id + ", email=" + email + ", password=" + password + ", nome=" + nome + ", cognome="
-				+ cognome + ", appuntamenti=" + appuntamenti + ", servizi=" + servizi + "]";
+		return "Titolare{" +
+				"id=" + id +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", nome='" + nome + '\'' +
+				", cognome='" + cognome + '\'' +
+				", appuntamenti=" + appuntamenti +
+				", servizi=" + servizi +
+				'}';
 	}
-	
-	
-	
-
 }

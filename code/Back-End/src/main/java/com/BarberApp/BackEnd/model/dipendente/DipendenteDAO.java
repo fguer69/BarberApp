@@ -1,14 +1,20 @@
 package com.BarberApp.BackEnd.model.dipendente;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+
+import jakarta.persistence.EntityManager;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
+
 
 @Service
 public class DipendenteDAO {
@@ -56,7 +62,7 @@ public class DipendenteDAO {
 	}
 	//elenco di tutti i dipendenti disponibili per una determinata data ed una determinata ora
 	public List<Dipendente> getEmployeeByDate(DateTime data, DateTime ora){
-		return repository.findAllByAppuntamentiAndNome(data, ora);
+		return repository.findAvailableEmployeesByAppuntamentiDateAndAppuntamentiTime(data, ora);
 	}
 	
 	//login di un dipendente

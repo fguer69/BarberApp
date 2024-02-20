@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "com.BarberApp.BackEnd")
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 public class BackEndApplication {
 
 	public static void main(String[] args) {

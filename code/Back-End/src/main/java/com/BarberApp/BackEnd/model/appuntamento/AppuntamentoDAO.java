@@ -5,13 +5,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Service;
 
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
+import org.joda.time.DateTime;
 
 @Service
 public class AppuntamentoDAO {
@@ -39,7 +42,7 @@ public class AppuntamentoDAO {
 	
 	public int checkAppuntamento(Cliente cliente, Appuntamento appuntamento) {
 	    Integer clienteID = cliente.getId();
-	    return repository.findAppuntamentoByDateAndCliente(clienteID, appuntamento.getDate());
+	    return repository.countAppointmentsByCliente_IdAndDate(clienteID, appuntamento.getDate());
 	}
 	
 	//Ritorno di una lista di appuntamenti di un determinato cliente

@@ -1,8 +1,10 @@
 package com.BarberApp.BackEnd.model.cliente;
 
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.io.*;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.util.Streamable;

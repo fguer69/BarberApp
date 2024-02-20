@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import com.BarberApp.BackEnd.model.titolare.TitolareDAO;
@@ -73,7 +70,7 @@ public class TitolareController {
 	
 	//login
 	@PostMapping("/titolari/login")
-	public Optional<Titolare> login(@RequestBody String email, String password){
+	public Optional<Titolare> login(@RequestParam() String email, @RequestParam() String password){
 		return titolareDAO.loginTitolare(email, password);
 	}
 

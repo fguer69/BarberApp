@@ -1,25 +1,32 @@
 package com.BarberApp.BackEnd.controller;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
+
+import com.BarberApp.BackEnd.StringToDateConverter.StringToDateTimeConverter;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import com.BarberApp.BackEnd.model.dipendente.DipendenteDAO;
 
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 
 @RestController
 public class DipendenteController {
 	
 	@Autowired
 	private DipendenteDAO dipendenteDAO;
+
 	
 	//Check dipendente-email
 		@PostMapping("/dipendenti/check")
@@ -76,15 +83,29 @@ public class DipendenteController {
 	}
 	//Visualizzazione di tutti i dipendenti disponibili per una determinata data e ora
 	@PostMapping("/dipendenti/dipendentiDisponibili")
-	public List<Dipendente> getDipendentiByDate(@RequestBody DateTime data, @RequestBody DateTime ora){
-		return dipendenteDAO.getEmployeeByDate(data, ora);
-		
+	public List<Dipendente> getDipendentiByDate(@RequestParam() String data, @RequestParam() String ora){
+			System.out.println(data+" "+ora);
+		DateTimeZone.setDefault(DateTimeZone.UTC);
+		String Ora = ora.replace("Z", "");
+		DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
+		DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+		//DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+		DateTime date = DateTime.parse(data,dateFormatter);
+		DateTime time = DateTime.parse(Ora, timeFormatter);
+		System.out.println(date+" "+time);
+			return dipendenteDAO.getEmployeeByDate(date,time);
 	}
 	//Login di un dipendente
 	//login
 		@PostMapping("/dipendenti/login")
-		public Optional<Dipendente> login(@RequestBody String email, String password){
+		public Optional<Dipendente> login(@RequestParam() String email, @RequestParam() String password){
 			return dipendenteDAO.loginDipendente(email, password);
+		}
+
+		@PostMapping("/dipendenti/getById")
+		public Optional<Dipendente> getDipendenteById(@RequestBody int id){
+			return dipendenteDAO.getDipendenteById(id);
 		}
 
 }

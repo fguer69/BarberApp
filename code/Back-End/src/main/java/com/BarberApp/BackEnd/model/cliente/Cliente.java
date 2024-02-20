@@ -15,7 +15,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Clienti")
+@Table(name = "clienti")
 public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,15 +58,16 @@ public class Cliente {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
-				+ password + ", appuntamenti=" + appuntamenti + "]";
+		return "Cliente{" +
+				"id=" + id +
+				", nome='" + nome + '\'' +
+				", cognome='" + cognome + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", appuntamenti=" + appuntamenti +
+				'}';
 	}
-	
-	
-	
-	
-				   
-
 }

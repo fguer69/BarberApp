@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "Dipendenti")
+@Table(name = "dipendenti")
 public class Dipendente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,12 +55,16 @@ public class Dipendente {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	@Override
 	public String toString() {
-		return "Dipendente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password="
-				+ password + ", appuntamenti=" + appuntamenti + "]";
+		return "Dipendente{" +
+				"id=" + id +
+				", nome='" + nome + '\'' +
+				", cognome='" + cognome + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", appuntamenti=" + appuntamenti +
+				'}';
 	}
-	
-	
-
 }

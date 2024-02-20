@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Servizi")
+@Table(name = "servizi")
 public class Servizio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,11 +55,16 @@ public class Servizio {
 	public void setAssetImage(String assetImage) {
 		this.assetImage = assetImage;
 	}
+
 	@Override
 	public String toString() {
-		return "Servizio [id=" + id + ", tipo=" + tipo + ", costo=" + costo + ", appuntamenti=" + appuntamenti
-				+ ", titolare=" + titolare + "]";
+		return "Servizio{" +
+				"id=" + id +
+				", tipo='" + tipo + '\'' +
+				", assetImage='" + assetImage + '\'' +
+				", costo=" + costo +
+				", appuntamenti=" + appuntamenti +
+				", titolare=" + titolare +
+				'}';
 	}
-	
-	
 }

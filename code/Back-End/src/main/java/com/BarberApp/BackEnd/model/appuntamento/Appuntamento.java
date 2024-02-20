@@ -1,24 +1,21 @@
 package com.BarberApp.BackEnd.model.appuntamento;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Optional;
 
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 import com.BarberApp.BackEnd.model.dipendente.*;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 @Entity
-@Table(name = "Appuntamenti")
+@Table(name = "appuntamenti")
 public class Appuntamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -89,14 +86,17 @@ public class Appuntamento {
 	/*public void setFlag(Boolean flag) {
 		this.flag = flag;
 	}*/
+
 	@Override
 	public String toString() {
-		return "Appuntamento [id=" + id + ", date=" + date + ", time=" + time + ", cliente="
-				+ cliente + ", dipendente=" + dipendente + ", titolare=" + titolare + ", servizio=" + servizio + "]";
+		return "Appuntamento{" +
+				"id=" + id +
+				", date=" + date +
+				", time=" + time +
+				", cliente=" + cliente +
+				", dipendente=" + dipendente +
+				", titolare=" + titolare +
+				", servizio=" + servizio +
+				'}';
 	}
-	
-	
-	
-	
-
 }

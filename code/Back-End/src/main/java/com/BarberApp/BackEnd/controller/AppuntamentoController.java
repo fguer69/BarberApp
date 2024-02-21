@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 import com.BarberApp.BackEnd.model.appuntamento.AppuntamentoDAO;
 import com.BarberApp.BackEnd.model.cliente.Cliente;
@@ -30,6 +29,7 @@ public class AppuntamentoController {
 	@PostMapping("/appuntamenti/save")
 	public int saveAppuntamento(@RequestBody Appuntamento appuntamento) {
 		if(appuntamentoDAO.checkAppuntamento(appuntamento.getCliente(), appuntamento) <= 0) {
+			System.out.println(appuntamento);
 			appuntamentoDAO.saveAppointment(appuntamento);
 			return 200;
 		}

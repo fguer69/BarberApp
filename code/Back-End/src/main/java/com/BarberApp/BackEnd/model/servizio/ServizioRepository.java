@@ -1,7 +1,8 @@
 package com.BarberApp.BackEnd.model.servizio;
 
-import org.springframework.data.jdbc.repository.query.Modifying;
-import org.springframework.data.jdbc.repository.query.Query;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ public interface ServizioRepository extends ListCrudRepository<Servizio, Integer
 	
 	//aggiornamento del prezzo di un servizio sul database
 	@Modifying
-	@Query("UPDATE servizi s SET s.costo = ?1 WHERE s.id = ?2;")
+	@Query(value = "UPDATE servizi s SET s.costo = ?1 WHERE s.id = ?2", nativeQuery = true)
 	int findByIdAndCosto(Integer id, double prezzo);
 
 }

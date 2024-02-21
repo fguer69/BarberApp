@@ -9,10 +9,12 @@ import com.BarberApp.BackEnd.model.dipendente.*;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 
+
 import jakarta.persistence.*;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+
 
 @Entity
 @Table(name = "appuntamenti")
@@ -20,7 +22,9 @@ public class Appuntamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Temporal(TemporalType.TIMESTAMP)
 	private DateTime date;
+	@Temporal(TemporalType.TIMESTAMP)
 	private DateTime time;
 	//private Boolean flag;
 	@ManyToOne

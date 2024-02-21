@@ -4,12 +4,8 @@ import java.util.List;
 
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
 
 
 @Entity

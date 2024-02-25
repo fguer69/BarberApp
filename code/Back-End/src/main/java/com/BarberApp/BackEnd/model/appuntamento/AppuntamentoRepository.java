@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 public interface AppuntamentoRepository extends ListCrudRepository<Appuntamento, Integer> {
 
 	
-	@Query(value = "SELECT COUNT(*) AS numAppuntamenti FROM appuntamenti WHERE cliente_id = ?1 AND DATE(date) = DATE(?2)", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) AS numAppuntamenti FROM appuntamenti WHERE cliente_id = ?1 AND date = ?2", nativeQuery = true)
 	int countAppointmentsByCliente_IdAndDate(Integer ClienteId,DateTime date);
 	
 	@Query(value = "SELECT * FROM appuntamenti WHERE cliente_id = ?1 ORDER BY date, time", nativeQuery = true)

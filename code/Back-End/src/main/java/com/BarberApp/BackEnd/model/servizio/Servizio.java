@@ -6,6 +6,8 @@ import java.util.List;
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,9 +27,11 @@ public class Servizio {
 	private String assetImage;
 	private Double costo;
 	@OneToMany(mappedBy = "servizio")
+	@JsonManagedReference("servizio")
 	private List<Appuntamento> appuntamenti;
 	@ManyToOne
 	@JoinColumn(name = "titolare_id")
+	@JsonBackReference
 	private Titolare titolare;
 	
 	public int getId() {
@@ -54,6 +58,22 @@ public class Servizio {
 	}
 	public void setAssetImage(String assetImage) {
 		this.assetImage = assetImage;
+	}
+
+	public List<Appuntamento> getAppuntamenti() {
+		return appuntamenti;
+	}
+
+	public void setAppuntamenti(List<Appuntamento> appuntamenti) {
+		this.appuntamenti = appuntamenti;
+	}
+
+	public Titolare getTitolare() {
+		return titolare;
+	}
+
+	public void setTitolare(Titolare titolare) {
+		this.titolare = titolare;
 	}
 
 	@Override

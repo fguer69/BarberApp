@@ -32,7 +32,7 @@ public interface DipendenteRepository extends ListCrudRepository<Dipendente, Int
 		Dipendente findByEmail(String email);
 		
 		//Query per la selezione dei dipendenti che non hanno appuntamenti in un determinato orario di una determinata data
-		@Query(value = "SELECT * FROM dipendenti d WHERE d.id NOT IN (SELECT c.id FROM dipendenti c INNER JOIN appuntamenti a ON c.id = a.dipendente_id WHERE DATE(a.date) = DATE(?1) AND TIME(a.time) = TIME(?2))",nativeQuery = true)
+		@Query(value = "SELECT * FROM dipendenti d WHERE d.id NOT IN (SELECT c.id FROM dipendenti c INNER JOIN appuntamenti a ON c.id = a.dipendente_id WHERE a.date = ?1 AND a.time = ?2)",nativeQuery = true)
 		List<Dipendente> findAvailableEmployeesByAppuntamentiDateAndAppuntamentiTime(DateTime data,DateTime ora);
 		
 		//login di un dipendente

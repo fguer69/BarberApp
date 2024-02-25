@@ -1,18 +1,25 @@
 package com.BarberApp.BackEnd.model.appuntamento;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
 
 import com.BarberApp.BackEnd.model.cliente.Cliente;
-import com.BarberApp.BackEnd.model.dipendente.*;
+import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 import org.joda.time.DateTime;
 
 
@@ -22,22 +29,22 @@ public class Appuntamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Temporal(TemporalType.TIMESTAMP)
+	@JdbcTypeCode(Types.LONGVARBINARY)
 	private DateTime date;
-	@Temporal(TemporalType.TIMESTAMP)
+	@JdbcTypeCode(Types.LONGVARBINARY)
 	private DateTime time;
 	//private Boolean flag;
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
+	@JsonBackReference(value = "cliente")
 	private Cliente cliente;
 	@ManyToOne
 	@JoinColumn(name = "dipendente_id")
+	@JsonBackReference("dipendente")
 	private Dipendente dipendente;
 	@ManyToOne
-	@JoinColumn(name = "titolare_id")
-	private Titolare titolare;
-	@ManyToOne
 	@JoinColumn(name = "servizio_id")
+	@JsonBackReference(value = "servizio")
 	private Servizio servizio;
 	
 	public int getId() {
@@ -58,10 +65,10 @@ public class Appuntamento {
 	public void setTime(DateTime time) {
 		this.time = time;
 	}
-	public Dipendente getEmployee() {
+	public Dipendente getDipendente() {
 		return dipendente;
 	}
-	public void setEmployee(Dipendente dipendente) {
+	public void setDipendente(Dipendente dipendente) {
 		this.dipendente = dipendente;
 	}
 	public Cliente getCliente() {
@@ -69,14 +76,6 @@ public class Appuntamento {
 	}
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-	
-	
-	public Titolare getTitolare() {
-		return titolare;
-	}
-	public void setTitolare(Titolare titolare) {
-		this.titolare = titolare;
 	}
 	public Servizio getServizio() {
 		return servizio;
@@ -97,10 +96,9 @@ public class Appuntamento {
 				"id=" + id +
 				", date=" + date +
 				", time=" + time +
-				", cliente=" + cliente +
-				", dipendente=" + dipendente +
-				", titolare=" + titolare +
-				", servizio=" + servizio +
+				", clienteId=" + cliente.getId() +
+				", dipendente=" + dipendente.getId() +
+				", servizio=" + servizio.getId() +
 				'}';
 	}
 }

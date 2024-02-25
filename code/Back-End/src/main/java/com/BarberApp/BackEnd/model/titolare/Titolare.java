@@ -6,6 +6,7 @@ import java.util.List;
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,8 +25,7 @@ public class Titolare {
 				   nome,
 				   cognome;
 	@OneToMany(mappedBy = "titolare")
-	private List<Appuntamento> appuntamenti;
-	@OneToMany(mappedBy = "titolare")
+	@JsonManagedReference
 	private List<Servizio> servizi;
 	
 	public int getId() {
@@ -58,6 +58,13 @@ public class Titolare {
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
+	public List<Servizio> getServizi() {
+		return servizi;
+	}
+
+	public void setServizi(List<Servizio> servizi) {
+		this.servizi = servizi;
+	}
 
 	@Override
 	public String toString() {
@@ -67,7 +74,6 @@ public class Titolare {
 				", password='" + password + '\'' +
 				", nome='" + nome + '\'' +
 				", cognome='" + cognome + '\'' +
-				", appuntamenti=" + appuntamenti +
 				", servizi=" + servizi +
 				'}';
 	}

@@ -5,7 +5,15 @@ import java.util.List;
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 
 @Entity
@@ -19,6 +27,7 @@ public class Dipendente {
 				   email,
 				   password;
 	@OneToMany(mappedBy = "dipendente")
+	@JsonManagedReference(value = "dipendente")
 	private List<Appuntamento> appuntamenti;
 	
 	public int getId() {
@@ -50,6 +59,14 @@ public class Dipendente {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Appuntamento> getAppuntamenti() {
+		return appuntamenti;
+	}
+
+	public void setAppuntamenti(List<Appuntamento> appuntamenti) {
+		this.appuntamenti = appuntamenti;
 	}
 
 	@Override

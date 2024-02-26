@@ -49,11 +49,8 @@ public class ClienteDAO {
 	//aggiornamento dati utente
 	public Boolean updateClient(Cliente cliente){
 		Integer clienteID = cliente.getId();
-		if(repository.findByIdAndNomeAndCognomeAndEmailAndPassword(clienteID, cliente.getNome(), cliente.getCognome(), cliente.getEmail(), cliente.getPassword()) > 0)
+		repository.save(cliente);
 			return Boolean.TRUE;
-		else {
-			return Boolean.FALSE;
-		}
 	}
 	
 	//login

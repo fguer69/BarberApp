@@ -78,13 +78,22 @@ public class Servizio {
 
 	@Override
 	public String toString() {
+		ArrayList<Integer> appuntamentiId = new ArrayList<>();
+		if(appuntamenti == null){
+			appuntamentiId = null;
+		}
+		else{
+			for(int i = 0; i < appuntamenti.size(); i++){
+				appuntamentiId.add(appuntamenti.get(i).getId());
+			}
+		}
 		return "Servizio{" +
 				"id=" + id +
 				", tipo='" + tipo + '\'' +
 				", assetImage='" + assetImage + '\'' +
 				", costo=" + costo +
-				", appuntamenti=" + appuntamenti +
-				", titolare=" + titolare +
+				", appuntamenti=" + appuntamentiId +
+				", titolare=" + titolare.getId() +
 				'}';
 	}
 }

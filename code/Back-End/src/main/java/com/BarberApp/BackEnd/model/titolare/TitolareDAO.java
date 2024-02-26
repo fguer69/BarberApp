@@ -45,11 +45,8 @@ public class TitolareDAO {
 	//Modifica dei dati di un titolare nel database
 	public Boolean updateTitolare(Titolare titolare) {
 		Integer titolareID = titolare.getId();
-		if(repository.findByIdAndNomeAndCognomeAndEmailAndPassword(titolareID, titolare.getNome(), titolare.getCognome(), titolare.getEmail(), titolare.getPassword()) > 0)
+		repository.save(titolare);
 			return Boolean.TRUE;
-		else {
-			return Boolean.FALSE;
-		}
 	}
 	
 	//Login di un titolare

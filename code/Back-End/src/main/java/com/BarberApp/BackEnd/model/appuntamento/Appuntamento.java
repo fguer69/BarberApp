@@ -92,13 +92,16 @@ public class Appuntamento {
 
 	@Override
 	public String toString() {
+		String clienteId = cliente != null ? String.valueOf(cliente.getId()) : "null";
+		String dipendenteId = dipendente != null ? String.valueOf(dipendente.getId()) : "null";
+		String servizioId = servizio != null ? String.valueOf(servizio.getId()) : "null";
 		return "Appuntamento{" +
 				"id=" + id +
 				", date=" + date +
 				", time=" + time +
-				", clienteId=" + cliente.getId() +
-				", dipendente=" + dipendente.getId() +
-				", servizio=" + servizio.getId() +
+				", clienteId=" + clienteId  +
+				", dipendente=" + dipendenteId  +
+				", servizio=" + servizioId +
 				'}';
 	}
 }

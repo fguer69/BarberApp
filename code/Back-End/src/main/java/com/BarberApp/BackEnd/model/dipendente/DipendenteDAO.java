@@ -53,11 +53,9 @@ public class DipendenteDAO {
 	//aggiornamento informazioni personali di un dipendente
 	public Boolean updateEmployee(Dipendente dipendente){
 		Integer dipendenteID = dipendente.getId();
-		if(repository.findByIdAndNomeAndCognomeAndEmailAndPassword(dipendenteID, dipendente.getNome(), dipendente.getCognome(), dipendente.getEmail(), dipendente.getPassword()) > 0)
+		repository.save(dipendente);
 			return Boolean.TRUE;
-		else {
-			return Boolean.FALSE;
-		}
+
 		
 	}
 	//elenco di tutti i dipendenti disponibili per una determinata data ed una determinata ora

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ServizioDAO {
@@ -28,11 +29,9 @@ public class ServizioDAO {
 	//modifica di un servizio dal database
 	public Boolean serviceUpdate(Servizio servizio) {
 		Integer servizioID = servizio.getId();
-		if(repository.findByIdAndCosto(servizioID, servizio.getCosto()) > 0)
-			return Boolean.TRUE;
-		else {
-			return Boolean.FALSE;
-		}
+		System.out.println(servizioID+" "+servizio.getCosto());
+        repository.save(servizio);
+        return Boolean.TRUE;
 	}
 
 }

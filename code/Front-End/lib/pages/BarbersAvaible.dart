@@ -230,7 +230,8 @@ class DipendentiDisponibiliTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(seconds: 1),
         color: isSelected ? Colors.blue.withOpacity(0.5) : null,
         child: Column(
           children: [

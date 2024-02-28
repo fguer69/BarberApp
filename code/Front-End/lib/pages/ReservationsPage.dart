@@ -123,7 +123,7 @@ class ReservationsPageState_ extends State<ReservationsPage>{
                         errorText: 'Il campo non può essere vuoto'
                       ),
                       (value){
-                        if(value!.weekday == DateTime.monday || value.weekday == DateTime.sunday || value.isBefore(DateTime.now())){
+                        if(value!.weekday == DateTime.monday || value.weekday == DateTime.sunday || value.month == DateTime.now().month && value.day < DateTime.now().day){
                           return 'Giorno non valido';
                         }
                       },

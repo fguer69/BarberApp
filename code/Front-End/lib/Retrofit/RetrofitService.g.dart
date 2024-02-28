@@ -13,7 +13,7 @@ class _RetrofitService implements RetrofitService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.220:8080';
+    baseUrl ??= 'http://192.168.1.22:8080';
   }
 
   final Dio _dio;
@@ -22,10 +22,10 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<List<Cliente>> getPosts() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Cliente>>(Options(
       method: 'GET',
@@ -51,7 +51,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> checkEmail(String email) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = email;
@@ -77,7 +77,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> saveCliente(Cliente cliente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -104,7 +104,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> updateCliente(Cliente cliente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -131,7 +131,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> deleteCliente(Cliente cliente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -161,7 +161,7 @@ class _RetrofitService implements RetrofitService {
     String email,
     String password,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {
@@ -195,7 +195,7 @@ class _RetrofitService implements RetrofitService {
     String email,
     String password,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {
@@ -227,7 +227,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> titolareDelete(Titolare titolare) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -254,7 +254,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> checkEmailTitolare(String email) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = email;
@@ -280,7 +280,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> updateTitolare(Titolare titolare) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -307,10 +307,10 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<List<Servizio>> getServices() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Servizio>>(Options(
       method: 'GET',
@@ -336,7 +336,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> saveServizio(Servizio servizio) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -363,7 +363,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> deleteServizio(Servizio servizio) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -390,7 +390,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> updateServizio(Servizio servizio) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -420,7 +420,7 @@ class _RetrofitService implements RetrofitService {
     DateTime data,
     DateTime ora,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {
@@ -456,7 +456,7 @@ class _RetrofitService implements RetrofitService {
     String email,
     String password,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {
@@ -488,10 +488,10 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<List<Dipendente>> dipendentiGetAll() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<Dipendente>>(Options(
       method: 'GET',
@@ -517,7 +517,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<Dipendente> getDipendenteById(int id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = id;
@@ -544,7 +544,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> deleteDipendente(Dipendente dipendente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -571,7 +571,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> saveAppuntamento(Appuntamento appuntamento) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -598,7 +598,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> checkEmailDipendente(String email) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = email;
@@ -624,7 +624,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> updateDipendente(Dipendente dipendente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -651,7 +651,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> saveDipendente(Dipendente dipendente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -678,7 +678,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<List<Appuntamento>> getAppuntamentiByCliente(Cliente cliente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -709,7 +709,7 @@ class _RetrofitService implements RetrofitService {
   @override
   Future<List<Appuntamento>> getAppuntamentiByDipendente(
       Dipendente dipendente) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -739,7 +739,7 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<int> deleteAppuntamento(Appuntamento appuntamento) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -766,10 +766,10 @@ class _RetrofitService implements RetrofitService {
 
   @override
   Future<List<Appuntamento>> getAllAppuntamentiOrdered() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<Appuntamento>>(Options(
       method: 'GET',

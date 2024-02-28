@@ -9,7 +9,7 @@ import 'package:barberapp_front_end/Model/Cliente.dart';
 import '../Model/Titolare.dart';
 part 'RetrofitService.g.dart';
 
-@RestApi(baseUrl: "http://192.168.1.220:8080")
+@RestApi(baseUrl: "http://192.168.1.22:8080")
 abstract class RetrofitService {
   factory RetrofitService(Dio dio) = _RetrofitService;
 
@@ -30,10 +30,12 @@ abstract class RetrofitService {
   Future<int> deleteCliente(@Body() Cliente cliente);
   @FormUrlEncoded()
   @POST('/clienti/login')
-  Future<Cliente?> clienteLogin(@Field("email") String email, @Field("password") String password);
+  Future<Cliente?> clienteLogin(
+      @Field("email") String email, @Field("password") String password);
   @FormUrlEncoded()
   @POST('/titolari/login')
-  Future<Titolare?> titolareLogin(@Field("email") String email, @Field("password") String password);
+  Future<Titolare?> titolareLogin(
+      @Field("email") String email, @Field("password") String password);
 
   @POST('/titolari/delete')
   Future<int> titolareDelete(@Body() Titolare titolare);
@@ -57,10 +59,12 @@ abstract class RetrofitService {
   Future<int> updateServizio(@Body() Servizio servizio);
   @FormUrlEncoded()
   @POST('/dipendenti/dipendentiDisponibili')
-  Future<List<Dipendente>> getFreeEmployee(@Field("data") DateTime data, @Field("ora") DateTime ora);
+  Future<List<Dipendente>> getFreeEmployee(
+      @Field("data") DateTime data, @Field("ora") DateTime ora);
   @FormUrlEncoded()
   @POST('/dipendenti/login')
-  Future<Dipendente?> dipendenteLogin(@Field("email") String email, @Field("password") String password);
+  Future<Dipendente?> dipendenteLogin(
+      @Field("email") String email, @Field("password") String password);
 
   @GET('/dipendenti/get-all')
   Future<List<Dipendente>> dipendentiGetAll();
@@ -87,7 +91,8 @@ abstract class RetrofitService {
   Future<List<Appuntamento>> getAppuntamentiByCliente(@Body() Cliente cliente);
 
   @POST('/appuntamenti/getAppointment-ByDipendente')
-  Future<List<Appuntamento>> getAppuntamentiByDipendente(@Body() Dipendente dipendente);
+  Future<List<Appuntamento>> getAppuntamentiByDipendente(
+      @Body() Dipendente dipendente);
 
   @POST('/appuntamenti/delete')
   Future<int> deleteAppuntamento(@Body() Appuntamento appuntamento);

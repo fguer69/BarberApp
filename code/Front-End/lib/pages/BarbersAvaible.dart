@@ -106,7 +106,7 @@ class BarbersAvaibleState extends State<BarbersAvaible> {
             itemCount: dipendentiDisponibili.length,
             itemBuilder: (context, index) => DipendentiDisponibiliTile(
                 dipendente: dipendentiDisponibili[index],
-                    isSelected: (dipendentiDisponibili[index].id == _selectedDipendente.id) ? true : false,
+                    isSelected: (dipendentiDisponibili[index].id == _selectedDipendente?.id) ? true : false,
               onTap: (){
                   setState(() {
                     _selectedDipendente = dipendentiDisponibili[index];

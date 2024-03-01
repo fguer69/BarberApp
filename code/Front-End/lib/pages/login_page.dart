@@ -13,6 +13,8 @@ import '../Model/getImages.dart';
 import '../Providers/UserDataProvider.dart';
 import '../Retrofit/RetrofitService.dart';
 import 'package:crypt/crypt.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -164,22 +166,21 @@ class _LoginPageState extends State<LoginPage> {
                                         String password = _formKey.currentState!
                                             .fields['password']!.value
                                             .toString();
-                                        final passwordHash =
-                                            Crypt.sha512(password);
+                                        var bytes = utf8.encode(password);
+                                        var digest = sha512.convert(bytes);
+                                        final passwordHash = digest.toString();
                                         final retrofitService = RetrofitService(
                                             Dio(BaseOptions(
                                                 contentType:
                                                     "application/json")));
-                                        Cliente? codeU =
-                                            await retrofitService.clienteLogin(
-                                                email, passwordHash.toString());
+                                        Cliente? codeU = await retrofitService
+                                            .clienteLogin(email, passwordHash);
                                         Dipendente? codeD =
                                             await retrofitService
-                                                .dipendenteLogin(email,
-                                                    passwordHash.toString());
-                                        Titolare? codeT =
-                                            await retrofitService.titolareLogin(
-                                                email, passwordHash.toString());
+                                                .dipendenteLogin(
+                                                    email, passwordHash);
+                                        Titolare? codeT = await retrofitService
+                                            .titolareLogin(email, passwordHash);
 
                                         if (codeU != null) {
                                           setState(() {

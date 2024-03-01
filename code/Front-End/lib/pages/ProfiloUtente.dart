@@ -12,6 +12,8 @@ import '../Model/Cliente.dart';
 import '../Retrofit/RetrofitService.dart';
 import 'package:barberapp_front_end/RouteGenerator.dart';
 import 'package:crypt/crypt.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class ProfiloUtente extends StatefulWidget {
   const ProfiloUtente({super.key});
@@ -357,7 +359,7 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                         });
                         _formKey.currentState!.save();
                         String passwordFinal;
-                        final Crypt? passwordHash;
+                        String? passwordHash;
                         String password = _formKey
                             .currentState!.fields['password']!.value
                             .toString();
@@ -366,13 +368,15 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                                     listen: false)
                                 .cliente
                                 .password) {
-                          passwordHash = Crypt.sha512(password);
+                          var bytes = utf8.encode(password);
+                          var digest = sha512.convert(bytes);
+                          passwordHash = digest.toString();
                         } else
                           passwordHash = null;
                         if (passwordHash == null) {
                           passwordFinal = password;
                         } else
-                          passwordFinal = passwordHash.toString();
+                          passwordFinal = passwordHash;
                         Provider.of<UserDataProvider>(context, listen: false)
                                 .cliente
                                 .nome =

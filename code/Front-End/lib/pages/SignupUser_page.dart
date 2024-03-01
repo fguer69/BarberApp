@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import '../Model/Cliente.dart';
 import '../Retrofit/RetrofitService.dart';
 import 'package:crypt/crypt.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class SignupUser_page extends StatefulWidget {
   const SignupUser_page({super.key});
@@ -274,7 +276,9 @@ class _SignupUser_pageState extends State<SignupUser_page> {
                                   String password = _formKey
                                       .currentState!.fields['password']!.value
                                       .toString();
-                                  final passwordHash = Crypt.sha512(password);
+                                  var bytes = utf8.encode(password);
+                                  var digest = sha512.convert(bytes);
+                                  final passwordHash = digest.toString();
                                   Cliente cliente = Cliente(
                                       0,
                                       _formKey
@@ -286,7 +290,7 @@ class _SignupUser_pageState extends State<SignupUser_page> {
                                       _formKey
                                           .currentState!.fields['email']!.value
                                           .toString(),
-                                      passwordHash.toString(),
+                                      passwordHash,
                                       []);
                                   Provider.of<UserDataProvider>(context,
                                           listen: false)

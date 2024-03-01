@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 import 'package:barberapp_front_end/Model/Appuntamento.dart';
 import 'package:barberapp_front_end/Model/Dipendente.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
+import 'package:crypto/crypto.dart';
 
 import '../Model/Cliente.dart';
 import '../Retrofit/RetrofitService.dart';
@@ -290,7 +292,9 @@ class _SignupDipendente_pageState extends State<SignupDipendente_page> {
                                     String password = _formKey
                                         .currentState!.fields['password']!.value
                                         .toString();
-                                    final passwordHash = Crypt.sha512(password);
+                                    var bytes = utf8.encode(password);
+                                    var digest = sha512.convert(bytes);
+                                    final passwordHash = digest.toString();
                                     Dipendente dipendente = Dipendente(
                                         0,
                                         _formKey
@@ -302,7 +306,7 @@ class _SignupDipendente_pageState extends State<SignupDipendente_page> {
                                         _formKey.currentState!.fields['email']!
                                             .value
                                             .toString(),
-                                        passwordHash.toString(),
+                                        passwordHash,
                                         []);
                                     Provider.of<UserDataProvider>(context,
                                             listen: false)

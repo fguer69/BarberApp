@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:barberapp_front_end/Model/Appuntamento.dart';
 import 'package:barberapp_front_end/Model/getImages.dart';
 import 'package:barberapp_front_end/Providers/UserDataProvider.dart';
+import 'package:crypt/crypt.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -21,13 +22,16 @@ class ProfiloDipendente extends StatefulWidget {
 }
 
 class _ProfiloDipendenteState extends State<ProfiloDipendente> {
-  late Dipendente dipendente = Provider.of<UserDataProvider>(context, listen: true).dipendente;
-  Future<int> _checkEmail(String email)async{
+  late Dipendente dipendente =
+      Provider.of<UserDataProvider>(context, listen: true).dipendente;
+  Future<int> _checkEmail(String email) async {
     int code;
-    final retrofitService = RetrofitService(Dio(BaseOptions(contentType: "application/json")));
+    final retrofitService =
+        RetrofitService(Dio(BaseOptions(contentType: "application/json")));
     code = await retrofitService.checkEmailDipendente(email);
     return code;
   }
+
   final _formKey = GlobalKey<FormBuilderState>();
   bool _loading = false;
   late int codeEmail;
@@ -57,88 +61,95 @@ class _ProfiloDipendenteState extends State<ProfiloDipendente> {
             ),
           ),
           actions: [
-            _loading ? Center(child: CircularProgressIndicator(),):
-            Padding(
-              padding: EdgeInsets.only(right: 24.0),
-              child: CircleAvatar(
-                backgroundColor: Color(0x3FA4A9AE),
-                child: PopupMenuButton<int>(
-                  onSelected: (int value) {
-                    if (value == 1) {
-                      Navigator.pushNamed(context, '/login_page');
-                    } else if (value == 2) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                                '${dipendente.nome} ${dipendente.cognome}'),
-                            content: Text('Cancella account'),
-                            actions: [
-                              TextButton(
-                                onPressed: () async{
-                                  final retrofitService = RetrofitService(Dio(
-                                      BaseOptions(
-                                          contentType: "application/json")));
-                                  setState(() {
-                                    _loading = true;
-                                  });
-                                  int code = await retrofitService.deleteDipendente(dipendente);
-                                  if(code == 200){
-                                    setState(() {
-                                      _loading = false;
-                                    });
-                                    Navigator.pushNamed(context, '/login_page');
-                                  }
-
-                                },
-                                child: Text('SI'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context); // Chiudi il popup
-                                },
-                                child: Text('NO'),
-                              ),
-                            ],
-                          );
+            _loading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Padding(
+                    padding: EdgeInsets.only(right: 24.0),
+                    child: CircleAvatar(
+                      backgroundColor: Color(0x3FA4A9AE),
+                      child: PopupMenuButton<int>(
+                        onSelected: (int value) {
+                          if (value == 1) {
+                            Navigator.pushNamed(context, '/login_page');
+                          } else if (value == 2) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                      '${dipendente.nome} ${dipendente.cognome}'),
+                                  content: Text('Cancella account'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        final retrofitService = RetrofitService(
+                                            Dio(BaseOptions(
+                                                contentType:
+                                                    "application/json")));
+                                        setState(() {
+                                          _loading = true;
+                                        });
+                                        int code = await retrofitService
+                                            .deleteDipendente(dipendente);
+                                        if (code == 200) {
+                                          setState(() {
+                                            _loading = false;
+                                          });
+                                          Navigator.pushNamed(
+                                              context, '/login_page');
+                                        }
+                                      },
+                                      child: Text('SI'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(
+                                            context); // Chiudi il popup
+                                      },
+                                      child: Text('NO'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         },
-                      );
-                    }
-                  },
-                  itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
-                    const PopupMenuItem<int>(
-                      value: 1,
-                      child: Text(
-                        'Log out',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: 'ABeeZee',
-                          fontWeight: FontWeight.w400,
-                          height: 0,
-                        ),
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<int>>[
+                          const PopupMenuItem<int>(
+                            value: 1,
+                            child: Text(
+                              'Log out',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontFamily: 'ABeeZee',
+                                fontWeight: FontWeight.w400,
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                          const PopupMenuItem<int>(
+                            value: 2,
+                            child: Text(
+                              'Cancella account',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontFamily: 'ABeeZee',
+                                fontWeight: FontWeight.w400,
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const PopupMenuItem<int>(
-                      value: 2,
-                      child: Text(
-                        'Cancella account',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: 'ABeeZee',
-                          fontWeight: FontWeight.w400,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
+                  )
           ],
         ),
         backgroundColor: Colors.white,
@@ -328,21 +339,41 @@ class _ProfiloDipendenteState extends State<ProfiloDipendente> {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: FilledButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       setState(() {
                         _loading = true;
                       });
-                      int ControlloMail = await _checkEmail(_formKey.currentState!.fields['email']!.value.toString());
+                      int ControlloMail = await _checkEmail(_formKey
+                          .currentState!.fields['email']!.value
+                          .toString());
                       setState(() {
                         _loading = false;
                         codeEmail = ControlloMail;
                       });
-                      final validation = _formKey.currentState?.validate() ?? false;
+                      final validation =
+                          _formKey.currentState?.validate() ?? false;
                       if (validation!) {
                         setState(() {
                           _loading = true;
                         });
                         _formKey.currentState!.save();
+                        String passwordFinal;
+                        final Crypt? passwordHash;
+                        String password = _formKey
+                            .currentState!.fields['password']!.value
+                            .toString();
+                        if (password !=
+                            Provider.of<UserDataProvider>(context,
+                                    listen: false)
+                                .dipendente
+                                .password) {
+                          passwordHash = Crypt.sha512(password);
+                        } else
+                          passwordHash = null;
+                        if (passwordHash == null) {
+                          passwordFinal = password;
+                        } else
+                          passwordFinal = passwordHash.toString();
                         Provider.of<UserDataProvider>(context, listen: false)
                                 .dipendente
                                 .nome =
@@ -359,12 +390,15 @@ class _ProfiloDipendenteState extends State<ProfiloDipendente> {
                             _formKey.currentState!.fields['email']!.value
                                 .toString();
                         Provider.of<UserDataProvider>(context, listen: false)
-                                .dipendente
-                                .password =
-                            _formKey.currentState!.fields['password']!.value
-                                .toString();
-                        final retrofitService = RetrofitService(Dio(BaseOptions(contentType: "application/json")));
-                        int ControlloUpdate = await retrofitService.updateDipendente(Provider.of<UserDataProvider>(context, listen: false).dipendente);
+                            .dipendente
+                            .password = passwordFinal;
+                        final retrofitService = RetrofitService(
+                            Dio(BaseOptions(contentType: "application/json")));
+                        int ControlloUpdate =
+                            await retrofitService.updateDipendente(
+                                Provider.of<UserDataProvider>(context,
+                                        listen: false)
+                                    .dipendente);
                         if (ControlloUpdate == 200) {
                           setState(() {
                             _loading = false;

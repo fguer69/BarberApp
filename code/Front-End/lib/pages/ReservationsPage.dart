@@ -132,7 +132,8 @@ class ReservationsPageState_ extends State<ReservationsPage> {
                           value.weekday == DateTime.sunday ||
                           value.month == DateTime.now().month &&
                               value.day < DateTime.now().day ||
-                          value.month < DateTime.now().month ||
+                          value.month < DateTime.now().month &&
+                              value.year == DateTime.now().year ||
                           value.year < DateTime.now().year) {
                         return 'Giorno non valido';
                       }

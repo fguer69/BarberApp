@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import com.BarberApp.BackEnd.model.titolare.TitolareDAO;
+import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 @RestController
 public class TitolareController {
@@ -23,7 +27,23 @@ public class TitolareController {
 	//aggiunta di un titolare nel database da parte di un'altro titolare
 	@PostMapping("/titolari/save")
 	public int saveTitolare(@RequestBody Titolare titolare) {
-		if(titolareDAO.checkTitolare(titolare.getEmail()) == Boolean.FALSE) {
+		String password = titolare.getPassword();
+		String passwordHashed = null;
+		try{
+			java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
+			byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+			passwordHashed = "";
+			for (int i=0; i<hash.length; i++)
+			{
+				passwordHashed += Integer.toHexString((hash[i] & 0xFF) | 0x100).toLowerCase().substring(1, 3);
+			}
+		}
+		catch (java.security.NoSuchAlgorithmException e)
+		{
+			System.err.println(e);
+		}
+		titolare.setPassword(passwordHashed);
+		if(titolareDAO.checkTitolare(titolare.getEmail()) == Boolean.FALSE && passwordHashed != null) {
 			titolareDAO.saveTitolare(titolare);
 			return 200;
 		}

@@ -74,13 +74,7 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>6.4.4.Final</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
+
 
 
 
@@ -185,7 +179,11 @@
             <artifactId>usertype.spi</artifactId>
             <version>7.0.0.CR1</version>
         </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

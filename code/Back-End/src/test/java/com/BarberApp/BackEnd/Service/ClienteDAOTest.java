@@ -6,7 +6,9 @@ import com.BarberApp.BackEnd.model.appuntamento.AppuntamentoRepository;
 import com.BarberApp.BackEnd.model.cliente.ClienteDAO;
 import com.BarberApp.BackEnd.model.cliente.ClienteRepository;
 import com.BarberApp.BackEnd.model.cliente.Cliente;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,12 +16,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.in;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class ClienteDAOTest {
@@ -27,7 +31,6 @@ public class ClienteDAOTest {
     private ClienteRepository repository;
     @InjectMocks
     ClienteDAO clienteDAO;
-    @Mock
     Cliente cliente = new Cliente();
     @BeforeEach
     public void setUp(){
@@ -41,15 +44,8 @@ public class ClienteDAOTest {
     @Test
     @DisplayName("Test per verificare il salvataggio di un cliente")
     void saveCliente(){
-        boolean passed = false;
         clienteDAO.saveCliente(cliente);
-        List<Cliente> clienti = clienteDAO.getAllClienti();
-        for(Cliente c : clienti){
-            if(cliente.getEmail().equals(c.getEmail()))
-                passed = true;
-            System.out.println(clienti);
-        }
-        System.out.println(passed);
+        verify(repository).save(cliente);
     }
 
 }

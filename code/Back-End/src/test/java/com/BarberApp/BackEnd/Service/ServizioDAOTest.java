@@ -1,25 +1,28 @@
-package com.BarberApp.BackEnd.repository;
+package com.BarberApp.BackEnd.Service;
 
 import com.BarberApp.BackEnd.model.servizio.Servizio;
+import com.BarberApp.BackEnd.model.servizio.ServizioDAO;
 import com.BarberApp.BackEnd.model.servizio.ServizioRepository;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
+import com.BarberApp.BackEnd.model.titolare.TitolareDAO;
 import com.BarberApp.BackEnd.model.titolare.TitolareRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@DataJpaTest
-@ActiveProfiles("test")
-public class ServizioRepositoryTest {
+import static org.mockito.Mockito.verify;
 
-    @Autowired
+@ExtendWith(MockitoExtension.class)
+public class ServizioDAOTest {
+    @Mock
     private ServizioRepository repository;
+    @InjectMocks
+    ServizioDAO servizioDAO;
     Servizio servizio = new Servizio();
-
-    @Autowired
-    private TitolareRepository TitolareRepository;
     Titolare titolare = new Titolare();
     @BeforeEach
     public void setUp(){
@@ -32,16 +35,14 @@ public class ServizioRepositoryTest {
         titolare.setPassword("ciaociao");
         titolare.setNome("titolareuno");
         titolare.setCognome("uno");
-        TitolareRepository.save(titolare);
         servizio.setTitolare(titolare);
     }
 
     @Test
-    public void saveServizio(){
-        Servizio savedServizio = repository.save(servizio);
-        if(savedServizio.getId() == servizio.getId())
-            System.out.println("PASSED");
-        else
-            System.out.println("FAILED");
+    @DisplayName("Test per verificare il salvataggio di un servizio")
+    void saveServizio(){
+        servizioDAO.saveService(servizio);
+        verify(repository).save(servizio);
     }
+
 }

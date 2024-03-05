@@ -104,7 +104,7 @@ class _AggiungiServiziState extends State<AggiungiServizi> {
                           child: Container(
                             padding: const EdgeInsets.only(left: 10, top: 6),
                             width: 316,
-                            height: 63,
+                            height: 80,
                             decoration: ShapeDecoration(
                               color: Color(0x26A4A9AE),
                               shape: RoundedRectangleBorder(

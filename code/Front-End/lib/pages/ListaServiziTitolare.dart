@@ -6,6 +6,7 @@ import 'package:barberapp_front_end/Retrofit/RetrofitService.dart';
 import 'package:barberapp_front_end/utils/navigation_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ListaServiziTitolare extends StatefulWidget {
@@ -143,6 +144,7 @@ class ServiceTile extends StatefulWidget {
 
 class _ServiceTileState extends State<ServiceTile> {
   late double _costo;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -234,20 +236,34 @@ class _ServiceTileState extends State<ServiceTile> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Modifica Costo'),
-          content: TextFormField(
-            initialValue: _costo.toString(),
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() {
-                _costo = double.tryParse(value) ?? _costo;
-              });
-            },
-            validator: (value) {
-              if (value == null || value.isEmpty || _costo < 1) {
-                return 'Inserire un prezzo valido!';
-              }
-              return null;
-            },
+          content: Form(
+            key: _formKey,
+            child: TextFormField(
+              initialValue: _costo.toString(),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                //FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.allow(RegExp('[0-9.]'))
+              ],
+              onChanged: (value) {
+                setState(() {
+                  _costo = double.tryParse(value) ?? _costo;
+                });
+              },
+              validator: (value) {
+                if (value == null ||
+                    value.isEmpty ||
+                    value == '0' ||
+                    value == '0.0') {
+                  return 'Inserire un prezzo valido!';
+                }
+                double? price = double.tryParse(value);
+                if (price == null || price < 1) {
+                  return 'Inserire un prezzo valido!';
+                }
+                return null;
+              },
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -258,11 +274,13 @@ class _ServiceTileState extends State<ServiceTile> {
             ),
             TextButton(
               onPressed: () {
-                setState(() {
-                  widget.servizio.costo = _costo;
-                });
-                widget.callBack2(widget.index);
-                Navigator.of(context).pop();
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    widget.servizio.costo = _costo;
+                  });
+                  widget.callBack2(widget.index);
+                  Navigator.of(context).pop();
+                }
               },
               child: Text('Salva'),
             ),

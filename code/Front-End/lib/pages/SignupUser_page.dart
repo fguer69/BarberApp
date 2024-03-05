@@ -311,8 +311,26 @@ class _SignupUser_pageState extends State<SignupUser_page> {
                                       setState(() {
                                         _loading = false;
                                       });
-                                      Navigator.pushNamed(
-                                          context, '/login_page');
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                                'Registrazione avvenuta con successo!'),
+                                            content: Text(
+                                                'Premere il tasto OK per accedere al proprio account!'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pushNamed(context,
+                                                      '/login_page'); // Chiudi il popup
+                                                },
+                                                child: Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     } else {
                                       setState(() {
                                         _loading = false;

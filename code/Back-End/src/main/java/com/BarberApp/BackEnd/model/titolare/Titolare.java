@@ -7,12 +7,7 @@ import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "titolari")
@@ -24,7 +19,7 @@ public class Titolare {
 				   password,
 				   nome,
 				   cognome;
-	@OneToMany(mappedBy = "titolare")
+	@OneToMany(mappedBy = "titolare", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonManagedReference
 	private List<Servizio> servizi;
 	

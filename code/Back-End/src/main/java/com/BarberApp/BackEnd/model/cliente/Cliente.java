@@ -5,15 +5,7 @@ import java.util.List;
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "clienti")
@@ -25,7 +17,7 @@ public class Cliente {
 				   cognome,
 				   email,
 				   password;
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonManagedReference(value = "cliente")
 	private List<Appuntamento> appuntamenti;
 	

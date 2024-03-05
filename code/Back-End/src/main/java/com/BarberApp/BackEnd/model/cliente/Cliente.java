@@ -72,4 +72,23 @@ public class Cliente {
 				", appuntamenti=" + appuntamenti +
 				'}';
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		Cliente cliente = (Cliente) obj;
+		if (this.id != cliente.getId()) return false;
+		if (!this.nome.equals(cliente.getNome())) return false;
+		if (!this.cognome.equals(cliente.getCognome())) return false;
+		if (!this.email.equals(cliente.getEmail())) return false;
+		if (!this.password.equals(cliente.getPassword())) return false;
+		if (this.appuntamenti != null && cliente.getAppuntamenti() != null && !this.appuntamenti.equals(cliente.getAppuntamenti())) return false;
+		if (this.appuntamenti == null && cliente.getAppuntamenti() != null) return false;
+		if (this.appuntamenti != null && cliente.getAppuntamenti() == null) return false;
+		if (this.appuntamenti == null && cliente.getAppuntamenti() == null) return true;
+        return this.appuntamenti.equals(cliente.getAppuntamenti());
+    }
 }

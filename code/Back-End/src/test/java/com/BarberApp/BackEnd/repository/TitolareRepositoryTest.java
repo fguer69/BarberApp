@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
 @DataJpaTest
 @ActiveProfiles("test")
 public class TitolareRepositoryTest {
@@ -24,14 +29,23 @@ public class TitolareRepositoryTest {
         titolare.setPassword("ciaociao");
         titolare.setNome("titolareuno");
         titolare.setCognome("uno");
+        repository.save(titolare);
     }
 
     @Test
-    public void saveTitolare(){
-        Titolare savedTitolare = repository.save(titolare);
-        if(savedTitolare.getId() == titolare.getId())
-            System.out.println("PASSED");
-        else
-            System.out.println("FAILED");
+    public void testgetTitolareByEmail()
+    {
+        Titolare titolare1 = repository.getTitolareByEmail(titolare.getEmail());
+        assertEquals(titolare, titolare1);
+    }
+
+    @Test
+    public void testGetTitolareByEmailAndPassword()
+    {
+        Optional<Titolare> optionalTitolare = repository.getTitolareByEmailAndPassword(titolare.getEmail(), titolare.getPassword());
+        Titolare titolare1 = null;
+        if (optionalTitolare.isPresent())
+            titolare1 = optionalTitolare.get();
+        assertEquals(titolare, titolare1);
     }
 }

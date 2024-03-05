@@ -6,6 +6,7 @@ import 'package:barberapp_front_end/Retrofit/RetrofitService.dart';
 import 'package:barberapp_front_end/utils/navigation_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ListaServiziTitolare extends StatefulWidget {
@@ -23,78 +24,84 @@ class _ListaServiziTitolareState extends State<ListaServiziTitolare> {
     Servizio(1, "taglio+barba+shampoo+ciaociao+byebye",'', 3, [], Titolare(1, "", "", "", "", [], [])),
   ];*/
 
-  late List<Servizio>services = Provider.of<UserDataProvider>(context, listen: true).servizi;
+  late List<Servizio> services =
+      Provider.of<UserDataProvider>(context, listen: true).servizi;
   Future<void> _deleteServizio(int index) async {
     final retrofitService =
-    RetrofitService(Dio(BaseOptions(contentType: "application/json")));
+        RetrofitService(Dio(BaseOptions(contentType: "application/json")));
     final int responseCode =
-    await retrofitService.deleteServizio(services[index]);
+        await retrofitService.deleteServizio(services[index]);
     if (responseCode == 200) {
       setState(() {
         services.removeAt(index); // Rimuovi l'appuntamento dalla lista
       });
     }
   }
+
   Future<void> _updateServizio(int index) async {
     Servizio temp = services[index];
     print(temp);
     final retrofitService =
-    RetrofitService(Dio(BaseOptions(contentType: "application/json")));
+        RetrofitService(Dio(BaseOptions(contentType: "application/json")));
     final int responseCode =
-    await retrofitService.updateServizio(services[index]);
+        await retrofitService.updateServizio(services[index]);
     if (responseCode == 200) {
       setState(() {
         services.removeAt(index);
-        services.add(temp);// Rimuovi l'appuntamento dalla lista
+        services.add(temp); // Rimuovi l'appuntamento dalla lista
       });
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: (){Navigator.pushNamed(context, '/AggiungiServizio');},
-            ),
-            centerTitle: true,
-            title: const Text("Servizi",
-                style: TextStyle(fontStyle: FontStyle.italic)),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 24.0),
-                child: CircleAvatar(
-                  child: IconButton(
-                    onPressed: (){Navigator.pushNamed(context, '/ProfiloTitolare');},
-                    icon: Icon(Icons.person),
-                  ),
-                ),
-              )
-            ],
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, '/AggiungiServizio');
+            },
           ),
-          body: _body()
-      );
+          centerTitle: true,
+          title: const Text("Servizi",
+              style: TextStyle(fontStyle: FontStyle.italic)),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 24.0),
+              child: CircleAvatar(
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/ProfiloTitolare');
+                  },
+                  icon: Icon(Icons.person),
+                ),
+              ),
+            )
+          ],
+        ),
+        body: _body());
   }
-  FutureBuilder _body(){
-    final retrofitService = RetrofitService(Dio(BaseOptions(contentType: "application/json")));
+
+  FutureBuilder _body() {
+    final retrofitService =
+        RetrofitService(Dio(BaseOptions(contentType: "application/json")));
     return FutureBuilder(
       future: retrofitService.getServices(),
-      builder: (context, snapshot){
-        if(snapshot.connectionState == ConnectionState.done){
-          if(snapshot.data == null) {
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data == null) {
             services = [];
-            Provider.of<UserDataProvider>(context,listen: false).setServizi([]);
-          }
-          else {
+            Provider.of<UserDataProvider>(context, listen: false)
+                .setServizi([]);
+          } else {
             services = snapshot.data;
-            Provider.of<UserDataProvider>(context, listen: false).setServizi(snapshot.data!);
+            Provider.of<UserDataProvider>(context, listen: false)
+                .setServizi(snapshot.data!);
           }
           return _services(services, retrofitService);
-        }
-        else{
+        } else {
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -102,17 +109,29 @@ class _ListaServiziTitolareState extends State<ListaServiziTitolare> {
       },
     );
   }
-  Widget _services(List<Servizio> services, RetrofitService retrofitService){
+
+  Widget _services(List<Servizio> services, RetrofitService retrofitService) {
     return ListView.builder(
-      itemCount: services.length,//(snapshot.data as List<Appuntamento>).length,
-      itemBuilder: (context, index) => ServiceTile(servizio: services[index], callBack: (index) => _deleteServizio(index),callBack2: (index) => _updateServizio(index), index: index,
+      itemCount:
+          services.length, //(snapshot.data as List<Appuntamento>).length,
+      itemBuilder: (context, index) => ServiceTile(
+        servizio: services[index],
+        callBack: (index) => _deleteServizio(index),
+        callBack2: (index) => _updateServizio(index),
+        index: index,
       ),
     );
   }
 }
 
 class ServiceTile extends StatefulWidget {
-  const ServiceTile({Key? key, required this.servizio, required this.callBack,required this.callBack2, required this.index}) : super(key: key);
+  const ServiceTile(
+      {Key? key,
+      required this.servizio,
+      required this.callBack,
+      required this.callBack2,
+      required this.index})
+      : super(key: key);
 
   final Servizio servizio;
   final Function(int) callBack;
@@ -120,16 +139,19 @@ class ServiceTile extends StatefulWidget {
   final int index;
 
   @override
-  State<ServiceTile> createState()=> _ServiceTileState();
+  State<ServiceTile> createState() => _ServiceTileState();
 }
 
-class _ServiceTileState extends State<ServiceTile>{
+class _ServiceTileState extends State<ServiceTile> {
   late double _costo;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _costo = widget.servizio.costo;
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -150,7 +172,8 @@ class _ServiceTileState extends State<ServiceTile>{
                 child: SizedBox(
                   width: 100,
                   height: 100,
-                  child: Text('${widget.servizio.tipo}',
+                  child: Text(
+                    '${widget.servizio.tipo}',
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.clip,
                     style: const TextStyle(
@@ -164,22 +187,23 @@ class _ServiceTileState extends State<ServiceTile>{
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 35.0),
-                child: Text('${widget.servizio.costo}€',),
+                child: Text(
+                  '${widget.servizio.costo}€',
+                ),
               ),
-
               IconButton(
-                onPressed: () async{
+                onPressed: () async {
                   _showEditDialog();
                 },
                 icon: Icon(Icons.edit),
               ),
               IconButton(
-                onPressed: () async{
+                onPressed: () async {
                   bool? res = await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text(
-                          "Vuoi davvero eliminare questo servizio?"),
+                      title:
+                          const Text("Vuoi davvero eliminare questo servizio?"),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
@@ -192,7 +216,7 @@ class _ServiceTileState extends State<ServiceTile>{
                       ],
                     ),
                   );
-                  if (res != null && res == true){
+                  if (res != null && res == true) {
                     widget.callBack(widget.index);
                   }
                 },
@@ -205,20 +229,41 @@ class _ServiceTileState extends State<ServiceTile>{
       ],
     );
   }
+
   Future<void> _showEditDialog() async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Modifica Costo'),
-          content: TextFormField(
-            initialValue: _costo.toString(),
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() {
-                _costo = double.tryParse(value) ?? _costo;
-              });
-            },
+          content: Form(
+            key: _formKey,
+            child: TextFormField(
+              initialValue: _costo.toString(),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                //FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.allow(RegExp('[0-9.]'))
+              ],
+              onChanged: (value) {
+                setState(() {
+                  _costo = double.tryParse(value) ?? _costo;
+                });
+              },
+              validator: (value) {
+                if (value == null ||
+                    value.isEmpty ||
+                    value == '0' ||
+                    value == '0.0') {
+                  return 'Inserire un prezzo valido!';
+                }
+                double? price = double.tryParse(value);
+                if (price == null || price < 1) {
+                  return 'Inserire un prezzo valido!';
+                }
+                return null;
+              },
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -229,11 +274,13 @@ class _ServiceTileState extends State<ServiceTile>{
             ),
             TextButton(
               onPressed: () {
-                setState(() {
-                  widget.servizio.costo = _costo;
-                });
-                widget.callBack2(widget.index);
-                Navigator.of(context).pop();
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    widget.servizio.costo = _costo;
+                  });
+                  widget.callBack2(widget.index);
+                  Navigator.of(context).pop();
+                }
               },
               child: Text('Salva'),
             ),

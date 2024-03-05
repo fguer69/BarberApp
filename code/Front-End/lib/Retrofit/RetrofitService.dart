@@ -9,7 +9,7 @@ import 'package:barberapp_front_end/Model/Cliente.dart';
 import '../Model/Titolare.dart';
 part 'RetrofitService.g.dart';
 
-@RestApi(baseUrl: "http://192.168.1.22:8080")
+@RestApi(baseUrl: "http://192.168.1.220:8080")
 abstract class RetrofitService {
   factory RetrofitService(Dio dio) = _RetrofitService;
 

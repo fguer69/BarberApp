@@ -10,6 +10,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,18 +63,23 @@ public class ClienteControllerTest {
     @Test
     @DisplayName("Salvataggio di un cliente sul database la quale email è disponibile")
     public void saveClienteEmailDisponibile() throws Exception{
-       /* when((clienteDAO).checkCliente(cliente.getEmail())).thenReturn(false);
+       when((clienteDAO).checkCliente(cliente.getEmail())).thenReturn(false);
         doAnswer(invocation -> {
             System.out.println("CLIENTE SALVATO CON SUCCESSO");
             return null;
-        }).when(clienteDAO).saveCliente(cliente);*/
-        when((clienteDAO).checkCliente(cliente.getEmail())).thenReturn(false);
+        }).when(clienteDAO).saveCliente(cliente);
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/clienti/save")
                 .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
                 .andExpect(MockMvcResultMatchers.status().is(200));
-        /*verify(clienteDAO).checkCliente(cliente.getEmail());
-        verify(clienteDAO).saveCliente(cliente);*/
+        if(!clienteDAO.checkCliente(cliente.getEmail())){
+            clienteDAO.saveCliente(cliente);
+        }
+        InOrder inorder = inOrder(clienteDAO);
+        inorder.verify(clienteDAO).checkCliente(cliente.getEmail());
+        inorder.verify(clienteDAO).saveCliente(cliente);
+        //verify(clienteDAO).checkCliente(cliente.getEmail());
+        //verify(clienteDAO).saveCliente(cliente);
     }
 
     @Test

@@ -5,6 +5,7 @@ import java.util.List;
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 
 
+import com.BarberApp.BackEnd.model.cliente.Cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -79,5 +80,24 @@ public class Dipendente {
 				", password='" + password + '\'' +
 				", appuntamenti=" + appuntamenti +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		Dipendente dipendente = (Dipendente) obj;
+		if (this.id != dipendente.getId()) return false;
+		if (!this.nome.equals(dipendente.getNome())) return false;
+		if (!this.cognome.equals(dipendente.getCognome())) return false;
+		if (!this.email.equals(dipendente.getEmail())) return false;
+		if (!this.password.equals(dipendente.getPassword())) return false;
+		if (this.appuntamenti != null && dipendente.getAppuntamenti() != null && !this.appuntamenti.equals(dipendente.getAppuntamenti())) return false;
+		if (this.appuntamenti == null && dipendente.getAppuntamenti() != null) return false;
+		if (this.appuntamenti != null && dipendente.getAppuntamenti() == null) return false;
+		if (this.appuntamenti == null && dipendente.getAppuntamenti() == null) return true;
+		return this.appuntamenti.equals(dipendente.getAppuntamenti());
 	}
 }

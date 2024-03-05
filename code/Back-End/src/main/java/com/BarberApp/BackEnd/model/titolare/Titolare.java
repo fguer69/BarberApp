@@ -77,4 +77,22 @@ public class Titolare {
 				", servizi=" + servizi +
 				'}';
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null) return false;
+
+		Titolare titolare = (Titolare) obj;
+		if (this.id != titolare.getId()) return false;
+		if (!this.nome.equals(titolare.getNome())) return false;
+		if (!this.cognome.equals(titolare.getCognome())) return false;
+		if (!this.email.equals(titolare.getEmail())) return false;
+		if (!this.password.equals(titolare.getPassword())) return false;
+		if (this.servizi != null && titolare.getServizi() != null && !this.servizi.equals(titolare.getServizi())) return false;
+		if (this.servizi != null && titolare.getServizi() == null) return false;
+		if (this.servizi == null && titolare.getServizi() != null) return false;
+		if (this.servizi == null && titolare.getServizi() == null) return  true;
+		return this.servizi.equals(titolare.getServizi());
+	}
 }

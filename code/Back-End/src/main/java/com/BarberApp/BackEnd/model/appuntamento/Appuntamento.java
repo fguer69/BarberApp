@@ -104,4 +104,16 @@ public class Appuntamento {
 				", servizio=" + servizioId +
 				'}';
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		Appuntamento appuntamento = (Appuntamento) obj;
+		return (this.id == appuntamento.getId() &&
+				this.date.equals(appuntamento.getDate()) &&
+				this.time.equals(appuntamento.getTime()) &&
+				this.cliente.equals(appuntamento.getCliente()) &&
+				this.dipendente.equals(appuntamento.getDipendente()) &&
+				this.servizio.equals(appuntamento.getServizio()));
+	}
 }

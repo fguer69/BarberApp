@@ -2,6 +2,7 @@ package com.BarberApp.BackEnd.model.servizio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
@@ -95,5 +96,25 @@ public class Servizio {
 				", appuntamenti=" + appuntamentiId +
 				", titolare=" + titolare.getId() +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null) return false;
+
+		Servizio servizio = (Servizio) obj;
+		if (this.id != servizio.getId()) return false;
+		if (!this.tipo.equals(servizio.getTipo())) return false;
+		if (!this.assetImage.equals(servizio.getAssetImage())) return false;
+		if (!Objects.equals(this.costo, servizio.getCosto())) return false;
+		if (this.titolare != null && servizio.getTitolare() != null && !this.titolare.equals(servizio.getTitolare())) return false;
+		if (this.titolare != null && servizio.getTitolare() == null) return false;
+		if (this.titolare == null && servizio.getTitolare() != null) return false;
+		if (this.appuntamenti != null && servizio.getAppuntamenti() != null && !this.appuntamenti.equals(servizio.getAppuntamenti())) return false;
+		if (this.appuntamenti != null && servizio.getAppuntamenti() == null) return false;
+		if (this.appuntamenti == null && servizio.getAppuntamenti() != null) return false;
+		if (this.appuntamenti == null && servizio.getAppuntamenti() == null) return true;
+		return this.appuntamenti.equals(servizio.getAppuntamenti());
 	}
 }

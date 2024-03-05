@@ -14,6 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
 @DataJpaTest
 @ActiveProfiles("test")
 public class ClienteRepositoryTest {
@@ -28,14 +33,23 @@ public class ClienteRepositoryTest {
         cliente.setCognome("lambiase");
         cliente.setEmail("lucalambiase@gmail.com");
         cliente.setPassword("ciaociao");
+        repository.save(cliente);
     }
 
     @Test
-    public void saveCliente(){
-        Cliente savedCliente = repository.save(cliente);
-        if(savedCliente.getId() == cliente.getId())
-            System.out.println("PASSED");
-        else
-            System.out.println("FAILED");
+    public void testGetClienteByEmail()
+    {
+        Cliente cliente1 = repository.getClienteByEmail(cliente.getEmail());
+        assertEquals(cliente, cliente1);
+    }
+
+    @Test
+    public void testGetClienteByEmailAndPassword()
+    {
+        Optional<Cliente> optionalCliente = repository.getClienteByEmailAndPassword(cliente.getEmail(), cliente.getPassword());
+        Cliente cliente1 = null;
+        if (optionalCliente.isPresent())
+            cliente1 = optionalCliente.get();
+        assertEquals(cliente, cliente1);
     }
 }

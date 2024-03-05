@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../Model/Cliente.dart';
 import '../Retrofit/RetrofitService.dart';
 
-
 class ListaDipendenti extends StatefulWidget {
   const ListaDipendenti({super.key});
 
@@ -22,13 +21,14 @@ class ListaDipendenti extends StatefulWidget {
 
 class _ListaDipendentiState extends State<ListaDipendenti> {
   late Dipendente dipendente;
-  late List<Dipendente> dipendentiList = Provider.of<UserDataProvider>(context,listen: true).dipendenti;
+  late List<Dipendente> dipendentiList =
+      Provider.of<UserDataProvider>(context, listen: true).dipendenti;
 
   Future<void> deleteDipendente(int index) async {
     final retrofitService =
-    RetrofitService(Dio(BaseOptions(contentType: "application/json")));
+        RetrofitService(Dio(BaseOptions(contentType: "application/json")));
     final int responseCode =
-    await retrofitService.deleteDipendente(dipendentiList[index]);
+        await retrofitService.deleteDipendente(dipendentiList[index]);
     if (responseCode == 200) {
       setState(() {
         dipendentiList.removeAt(index); // Rimuovi il dipendente dalla lista
@@ -36,57 +36,64 @@ class _ListaDipendentiState extends State<ListaDipendenti> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     //controllare se la variabile cliente è stata inizializzata
     return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            title: const Text(
-              "Lista dipendenti",
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/SignupDipendente_page');
-              },
-              icon: Icon(Icons.add),
-            ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 24.0),
-                child: CircleAvatar(
-                  child: IconButton(
-                    icon: Icon(Icons.person),
-                    onPressed: (){ Navigator.pushNamed(context, '/ProfiloTitolare');},
-                  ),
-                ),
-              )
-            ],
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: const Text(
+            "Lista dipendenti",
+            style: TextStyle(fontStyle: FontStyle.italic),
           ),
-          /*
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/SignupDipendente_page');
+            },
+            icon: Icon(Icons.add),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 24.0),
+              child: CircleAvatar(
+                child: IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/ProfiloTitolare');
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+        /*
           Leggi la lista da server
 
         */
-          body: _body()
-      );
+        body: _body());
   }
-  FutureBuilder _body(){
-    final retrofitService = RetrofitService(Dio(BaseOptions(contentType: "application/json")));
+
+  FutureBuilder _body() {
+    final retrofitService =
+        RetrofitService(Dio(BaseOptions(contentType: "application/json")));
     return FutureBuilder(
       future: retrofitService.dipendentiGetAll(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          dipendentiList = snapshot.data == null ? [] : (snapshot.data as List<Dipendente>);
-          Provider.of<UserDataProvider>(context, listen: false).setDipendenti(dipendentiList);
-          return  ListView.builder(
-            itemCount: dipendentiList.length,//(snapshot.data as List<Appuntamento>).length,
-            itemBuilder: (context, index) => BookTile(dipendente: dipendentiList[index], callBack: (index) => deleteDipendente(index), index: index,
+          dipendentiList =
+              snapshot.data == null ? [] : (snapshot.data as List<Dipendente>);
+          Provider.of<UserDataProvider>(context, listen: true)
+              .setDipendenti(dipendentiList);
+          return ListView.builder(
+            itemCount: dipendentiList
+                .length, //(snapshot.data as List<Appuntamento>).length,
+            itemBuilder: (context, index) => BookTile(
+              dipendente: dipendentiList[index],
+              callBack: (index) => deleteDipendente(index),
+              index: index,
             ),
           );
-
         } else {
           return Center(
             child: CircularProgressIndicator(),
@@ -96,8 +103,13 @@ class _ListaDipendentiState extends State<ListaDipendenti> {
     );
   }
 }
+
 class BookTile extends StatelessWidget {
-  const BookTile({super.key,  required this.dipendente, required this.callBack, required this.index});
+  const BookTile(
+      {super.key,
+      required this.dipendente,
+      required this.callBack,
+      required this.index});
   final Dipendente dipendente;
   final Function(int) callBack;
   final int index;
@@ -148,7 +160,7 @@ class BookTile extends StatelessWidget {
                           ],
                         ),
                       );
-                      if (res != null && res == true){
+                      if (res != null && res == true) {
                         callBack(index);
                       }
                     },

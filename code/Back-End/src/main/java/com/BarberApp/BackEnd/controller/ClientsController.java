@@ -26,12 +26,19 @@ public class ClientsController {
 	//registrazione di un'utente nel sistema
 	@PostMapping("/clienti/save")
 	public int save(@RequestBody Cliente cliente) {
-		if(clienteDAO.checkCliente(cliente.getEmail()) == Boolean.FALSE) {
+		if(clienteDAO.checkCliente(cliente.getEmail()) == Boolean.TRUE){
+			return 500;
+		}
+		else{
+			clienteDAO.saveCliente(cliente);
+			return 200;
+		}
+		/*if(clienteDAO.checkCliente(cliente.getEmail()) == Boolean.FALSE) {
 			clienteDAO.saveCliente(cliente);
 			return 200;
 		}
 		else
-			return 500;
+			return 500;*/
 	}
 	
 	//Eliminazione di un'utente dal sistema

@@ -333,6 +333,7 @@ class _SignupDipendente_pageState extends State<SignupDipendente_page> {
                                       if (ControlloLogin == 200) {
                                         setState(() {
                                           _loading = false;
+                                          _formKey.currentState!.reset();
                                         });
                                         showDialog(
                                           context: context,

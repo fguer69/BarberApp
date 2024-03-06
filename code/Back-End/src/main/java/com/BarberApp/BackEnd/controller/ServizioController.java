@@ -27,7 +27,6 @@ public class ServizioController {
 	//salvataggio di un nuovo servizio nel database
 	@PostMapping("/servizi/save")
 	public int saveServizio(@RequestBody Servizio servizio) {
-		System.out.println(servizio);
 		servizioDAO.saveService(servizio);
 		return 200;
 	}

@@ -95,5 +95,6 @@ public class ClienteControllerTest {
         when(clienteDAO.getAllClienti()).thenReturn(clienti);
         mockMvc.perform(MockMvcRequestBuilders.get("/clienti/get-all").contentType(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(clienti.size())));
+        clienteDAO.getAllClienti();
     }
 }

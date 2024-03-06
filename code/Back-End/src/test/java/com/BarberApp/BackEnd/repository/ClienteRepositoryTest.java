@@ -8,8 +8,10 @@ import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import org.joda.time.DateTime;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -21,12 +23,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ClienteRepositoryTest {
 
     @Autowired
     private ClienteRepository repository;
     Cliente cliente = new Cliente();
-    @BeforeEach
+    @BeforeAll
     public void setUp(){
         cliente.setId(1);
         cliente.setNome("luca");

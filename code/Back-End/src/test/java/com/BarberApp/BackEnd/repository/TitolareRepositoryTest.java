@@ -4,8 +4,10 @@ import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import com.BarberApp.BackEnd.model.dipendente.DipendenteRepository;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import com.BarberApp.BackEnd.model.titolare.TitolareRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -17,12 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TitolareRepositoryTest {
 
     @Autowired
     private TitolareRepository repository;
     Titolare titolare = new Titolare();
-    @BeforeEach
+    @BeforeAll
     public void setUp(){
         titolare.setId(1);
         titolare.setEmail("titolareuno@gmail.com");

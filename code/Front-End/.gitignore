@@ -9,7 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
-
+code/Front-End/lib/Retrofit/
 # IntelliJ related
 *.iml
 *.ipr

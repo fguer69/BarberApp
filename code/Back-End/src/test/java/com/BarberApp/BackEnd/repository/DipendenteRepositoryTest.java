@@ -15,8 +15,10 @@ import org.checkerframework.checker.units.qual.A;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -29,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DipendenteRepositoryTest {
 
     @Autowired
@@ -43,7 +46,7 @@ public class DipendenteRepositoryTest {
     private TitolareRepository titolareRepository;
     @Autowired
     private ServizioRepository servizioRepository;
-    @BeforeEach
+    @BeforeAll
     public void setUp(){
         dipendente.setId(1);
         dipendente.setNome("Francesco");

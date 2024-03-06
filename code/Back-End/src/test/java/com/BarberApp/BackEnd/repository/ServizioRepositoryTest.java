@@ -4,14 +4,17 @@ import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.servizio.ServizioRepository;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import com.BarberApp.BackEnd.model.titolare.TitolareRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ServizioRepositoryTest {
 
     @Autowired
@@ -21,7 +24,7 @@ public class ServizioRepositoryTest {
     @Autowired
     private TitolareRepository TitolareRepository;
     Titolare titolare = new Titolare();
-    @BeforeEach
+    @BeforeAll
     public void setUp(){
         servizio.setId(1);
         servizio.setTipo("Taglio");

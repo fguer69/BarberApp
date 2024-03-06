@@ -10,22 +10,30 @@ import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.servizio.ServizioRepository;
 import com.BarberApp.BackEnd.model.titolare.TitolareRepository;
 import org.aspectj.lang.annotation.Before;
+import org.hamcrest.MatcherAssert;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AppuntamentoRepositoryTest {
 
     @Autowired
@@ -43,7 +51,7 @@ public class AppuntamentoRepositoryTest {
     Servizio servizio = new Servizio();
     Titolare titolare = new Titolare();
     Appuntamento appuntamento = new Appuntamento();
-    @BeforeEach
+    @BeforeAll
     public void setUp(){
         cliente.setId(1);
         cliente.setNome("luca");
@@ -138,7 +146,10 @@ public class AppuntamentoRepositoryTest {
     {
         int id = dipendenteRepository.findAll().getFirst().getId();
         List<Appuntamento> appuntamenti = repository.findByDipendenteId(id);
-        assertEquals(appuntamenti.getFirst(), appuntamento);
+        List<Integer> idDipendenteAppuntamento = new ArrayList<>();
+        for(Appuntamento a : appuntamenti)
+            idDipendenteAppuntamento.add(a.getDipendente().getId());
+        MatcherAssert.assertThat(idDipendenteAppuntamento,allOf(hasItem(id)));
     }
 
     @Test

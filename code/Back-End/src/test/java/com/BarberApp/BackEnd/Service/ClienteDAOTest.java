@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.in;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,6 +47,10 @@ public class ClienteDAOTest {
     @Test
     @DisplayName("Test per verificare il salvataggio di un cliente")
     void saveCliente(){
+        doAnswer(invocation -> {
+            System.out.println("CLIENTE SALVATO CON SUCCESSO");
+            return null;
+        }).when(repository).save(cliente);
         clienteDAO.saveCliente(cliente);
         verify(repository).save(cliente);
     }

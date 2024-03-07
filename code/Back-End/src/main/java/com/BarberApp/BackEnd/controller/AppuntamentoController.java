@@ -29,8 +29,6 @@ public class AppuntamentoController {
 	@PostMapping("/appuntamenti/save")
 	public int saveAppuntamento(@RequestBody Appuntamento appuntamento) {
 		if(appuntamentoDAO.checkAppuntamento(appuntamento.getCliente(), appuntamento) <= 0) {
-			System.out.println(appuntamentoDAO.checkAppuntamento(appuntamento.getCliente(),appuntamento));
-			System.out.println(appuntamento);
 			appuntamentoDAO.saveAppointment(appuntamento);
 			return 200;
 		}

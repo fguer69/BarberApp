@@ -14,10 +14,7 @@ import org.hamcrest.MatcherAssert;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -87,6 +84,7 @@ public class AppuntamentoRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di countAppointmentsByCliente_IdAndDate di AppuntamentoRepository")
     public void testcountAppointmentsByCliente_IdAndDate()
     {
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
@@ -98,6 +96,7 @@ public class AppuntamentoRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di findByClienteIdOrderById di AppuntamentoRepository")
     public void testFindByClienteIdOrderById()
     {
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
@@ -142,6 +141,7 @@ public class AppuntamentoRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di findByDipendenteId di AppuntamentoRepository")
     public void testFindByDipendenteId()
     {
         int id = dipendenteRepository.findAll().getFirst().getId();
@@ -153,6 +153,7 @@ public class AppuntamentoRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di findAllByOrderByDate di AppuntamentoRepository")
     public void testFindAllByOrderByDate()
     {
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");

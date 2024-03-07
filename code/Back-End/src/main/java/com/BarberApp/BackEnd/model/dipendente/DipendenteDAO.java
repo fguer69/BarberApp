@@ -20,7 +20,7 @@ import com.BarberApp.BackEnd.model.cliente.Cliente;
 public class DipendenteDAO {
 	@Autowired
 	private DipendenteRepository repository;
-	
+
 	//Ricerca di un dipendente tramite id
 	public Optional<Dipendente> getDipendenteById(int id){
 		Integer dipendenteID = id;

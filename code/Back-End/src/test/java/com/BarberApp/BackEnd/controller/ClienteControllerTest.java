@@ -17,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,9 +29,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
@@ -68,18 +72,28 @@ public class ClienteControllerTest {
             System.out.println("CLIENTE SALVATO CON SUCCESSO");
             return null;
         }).when(clienteDAO).saveCliente(cliente);
-        mockMvc.perform(MockMvcRequestBuilders
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                 .post("/clienti/save")
                 .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
-                .andExpect(MockMvcResultMatchers.status().is(200));
-        if(!clienteDAO.checkCliente(cliente.getEmail())){
-            clienteDAO.saveCliente(cliente);
-        }
-        InOrder inorder = inOrder(clienteDAO);
-        inorder.verify(clienteDAO).checkCliente(cliente.getEmail());
-        inorder.verify(clienteDAO).saveCliente(cliente);
-        //verify(clienteDAO).checkCliente(cliente.getEmail());
-        //verify(clienteDAO).saveCliente(cliente);
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+
+        assertEquals("200", result.getResponse().getContentAsString());
+        verify(clienteDAO).checkCliente(cliente.getEmail());
+        verify(clienteDAO).saveCliente(cliente);
+    }
+
+    @Test
+    @DisplayName("Tentativo di salvataggio di un cliente sul database con email non disponibile")
+    void testSaveClienteEmailIndisponibile() throws Exception
+    {
+        when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(true);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post("/clienti/save")
+                .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("500", result.getResponse().getContentAsString());
+        verify(clienteDAO).checkCliente(cliente.getEmail());
+        verify(clienteDAO, never()).saveCliente(cliente);
     }
 
     @Test
@@ -96,5 +110,32 @@ public class ClienteControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/clienti/get-all").contentType(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(clienti.size())));
         clienteDAO.getAllClienti();
+    }
+
+    @Test
+    @DisplayName("Controllo se un email è già presente nel sistema")
+    void testCheckEmailPresente() throws Exception
+    {
+        when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(true);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post("/cliente/check")
+                .contentType(MediaType.APPLICATION_JSON).content(cliente.getEmail()))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("500", result.getResponse().getContentAsString());
+        verify(clienteDAO).checkCliente(cliente.getEmail());
+
+    }
+
+    @Test
+    @DisplayName("Controllo se un email non è presente nel sistema")
+    void testCheckEmailAssente() throws Exception
+    {
+        when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(false);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/cliente/check")
+                        .contentType(MediaType.APPLICATION_JSON).content(cliente.getEmail()))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("200", result.getResponse().getContentAsString());
+        verify(clienteDAO).checkCliente(cliente.getEmail());
     }
 }

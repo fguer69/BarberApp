@@ -16,7 +16,7 @@ import com.BarberApp.BackEnd.model.titolare.Titolare;
 public class ClienteDAO {
 	@Autowired
 	private ClienteRepository repository;
-	
+
 	//ricerca di un cliente tramite id
 	public Optional<Cliente> getClienteById(int id) {
 		Integer ID = id;

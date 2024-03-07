@@ -112,8 +112,13 @@ public class AppuntamentoControllerTest {
                         .post("/appuntamenti/save")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento)))
                 .andExpect(MockMvcResultMatchers.status().is(200));
-        verify(appuntamentoDAO).saveAppointment(appuntamento);
+        /*if(appuntamentoDAO.checkAppuntamento(cliente, appuntamento) <= 0){
+            appuntamentoDAO.saveAppointment(appuntamento);
+        }
+        else{
+            System.out.println("Salvataggio appuntamento fallita");
+        }*/
         verify(appuntamentoDAO).checkAppuntamento(cliente,appuntamento);
-
+        verify(appuntamentoDAO).saveAppointment(appuntamento);
     }
 }

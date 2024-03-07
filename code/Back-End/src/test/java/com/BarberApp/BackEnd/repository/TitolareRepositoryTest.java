@@ -4,10 +4,7 @@ import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import com.BarberApp.BackEnd.model.dipendente.DipendenteRepository;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import com.BarberApp.BackEnd.model.titolare.TitolareRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -36,6 +33,7 @@ public class TitolareRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di getTitolareByEmail di TitolareRepository")
     public void testgetTitolareByEmail()
     {
         Titolare titolare1 = repository.getTitolareByEmail(titolare.getEmail());
@@ -43,6 +41,7 @@ public class TitolareRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di getTitolareByEmailAndPassword di TitolareRepository")
     public void testGetTitolareByEmailAndPassword()
     {
         Optional<Titolare> optionalTitolare = repository.getTitolareByEmailAndPassword(titolare.getEmail(), titolare.getPassword());

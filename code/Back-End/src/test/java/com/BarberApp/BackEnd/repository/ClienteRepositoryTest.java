@@ -8,10 +8,7 @@ import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import org.joda.time.DateTime;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -40,6 +37,7 @@ public class ClienteRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di getClienteByEmail di ClienteRepository")
     public void testGetClienteByEmail()
     {
         Cliente cliente1 = repository.getClienteByEmail(cliente.getEmail());
@@ -47,6 +45,7 @@ public class ClienteRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di getClienteByEmailAndPassword di ClienteRepository")
     public void testGetClienteByEmailAndPassword()
     {
         Optional<Cliente> optionalCliente = repository.getClienteByEmailAndPassword(cliente.getEmail(), cliente.getPassword());

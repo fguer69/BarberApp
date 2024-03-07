@@ -15,10 +15,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -57,6 +54,7 @@ public class DipendenteRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di findByEmail di DipendenteRepository")
     public void testFindByEmail()
     {
         Dipendente dipendente1 = repository.findByEmail(dipendente.getEmail());
@@ -64,6 +62,7 @@ public class DipendenteRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di findAvailableEmployeesByAppuntamentiDateAndAppuntamentiTime di DipendenteRepository")
     public void testFindAvailableEmployeesByAppuntamentiDateAndAppuntamentiTime()
     {
         Cliente cliente = new Cliente();
@@ -108,6 +107,7 @@ public class DipendenteRepositoryTest {
     }
 
     @Test
+    @DisplayName("Test per verificare il corretto funzionamento di getDipendenteByEmailAndPassword di DipendenteRepository")
     public void testGetDipendenteByEmailAndPassword()
     {
         Optional<Dipendente> optionalDipendente = repository.getDipendenteByEmailAndPassword(dipendente.getEmail(), dipendente.getPassword());

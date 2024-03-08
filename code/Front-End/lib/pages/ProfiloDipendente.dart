@@ -309,12 +309,9 @@ class _ProfiloDipendenteState extends State<ProfiloDipendente> {
                             ),
                             child: FormBuilderTextField(
                               name: 'password',
-                              initialValue: dipendente.password,
                               autofocus: false,
                               obscureText: true,
                               validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(
-                                    errorText: 'Il campo non può essere vuoto'),
                                 FormBuilderValidators.minLength(8,
                                     errorText: 'Password troppo corta'),
                                 FormBuilderValidators.maxLength(16,
@@ -361,21 +358,25 @@ class _ProfiloDipendenteState extends State<ProfiloDipendente> {
                         _formKey.currentState!.save();
                         String passwordFinal;
                         String? passwordHash;
-                        String password = _formKey
-                            .currentState!.fields['password']!.value
+                        String? password = _formKey
+                            .currentState!.fields['password']?.value
                             .toString();
                         if (password !=
-                            Provider.of<UserDataProvider>(context,
-                                    listen: false)
-                                .dipendente
-                                .password) {
+                                Provider.of<UserDataProvider>(context,
+                                        listen: false)
+                                    .dipendente
+                                    .password &&
+                            password != null) {
                           var bytes = utf8.encode(password);
                           var digest = sha512.convert(bytes);
                           passwordHash = digest.toString();
                         } else
                           passwordHash = null;
                         if (passwordHash == null) {
-                          passwordFinal = password;
+                          passwordFinal = Provider.of<UserDataProvider>(context,
+                                  listen: false)
+                              .dipendente
+                              .password;
                         } else
                           passwordFinal = passwordHash;
                         Provider.of<UserDataProvider>(context, listen: false)

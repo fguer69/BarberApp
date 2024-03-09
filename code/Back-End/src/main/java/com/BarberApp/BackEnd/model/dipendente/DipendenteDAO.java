@@ -68,4 +68,8 @@ public class DipendenteDAO {
 		public Optional<Dipendente> loginDipendente(String email, String password) {
 			return repository.getDipendenteByEmailAndPassword(email, password);		
 		}
+
+	public Dipendente getDipendenteByEmail(String email){
+		return repository.findByEmail(email);
+	}
 }

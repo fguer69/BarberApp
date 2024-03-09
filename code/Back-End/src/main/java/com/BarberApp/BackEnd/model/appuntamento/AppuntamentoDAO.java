@@ -59,7 +59,7 @@ public class AppuntamentoDAO {
 	
 	//Ritorno della lista completa degli appuntamenti ordinata per data e orario
 	public List<Appuntamento> getAppuntamentiOrdered(){
-		return repository.findAllByOrderByDate();
+		return repository.findAllByOrderByDate().reversed();
 	}
 
 

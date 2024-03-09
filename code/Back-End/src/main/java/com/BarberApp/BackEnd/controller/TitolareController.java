@@ -3,6 +3,7 @@ package com.BarberApp.BackEnd.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,11 @@ public class TitolareController {
 	TitolareDAO titolareDAO;
 	
 	//Visualizzazione di tutti i titolari del sistema
+
+	@PostMapping("/titolari/getTitolareByEmail")
+	public Titolare getTitolareByEmail(@RequestBody() String email){
+		return titolareDAO.getTitolareByEmail(email);
+	}
 	@GetMapping("/titolari/get-all")
 	public List<Titolare> getAllTitolari(){
 		return titolareDAO.getAll();
@@ -71,7 +77,7 @@ public class TitolareController {
 	public int update(@RequestBody Titolare titolare) {
 		Titolare titolare1 = titolareDAO.getTitolareById(titolare.getId()).orElse(null);
 		if(titolare1 != null) {
-			if(titolare.getEmail() == titolare1.getEmail()) {
+			if(titolare.getEmail().equals(titolare1.getEmail())) {
 				titolareDAO.updateTitolare(titolare);
 				return 200;
 			}

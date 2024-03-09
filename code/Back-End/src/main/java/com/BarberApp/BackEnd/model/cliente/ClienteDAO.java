@@ -30,6 +30,10 @@ public class ClienteDAO {
 		else
 			return Boolean.TRUE;
 	}
+
+	public Cliente getClienteByEmail(String email){
+		return repository.getClienteByEmail(email);
+	}
 	
 	//Inserimento di un nuovo utente nel database
 	public void saveCliente(Cliente cliente) {

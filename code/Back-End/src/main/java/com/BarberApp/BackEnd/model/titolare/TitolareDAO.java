@@ -3,6 +3,7 @@ package com.BarberApp.BackEnd.model.titolare;
 import java.util.List;
 import java.util.Optional;
 
+import com.BarberApp.BackEnd.model.cliente.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,10 @@ public class TitolareDAO {
 			return Boolean.FALSE;
 		else
 			return Boolean.TRUE;
+	}
+
+	public Titolare getTitolareByEmail(String email){
+		return repository.getTitolareByEmail(email);
 	}
 	
 	//visualizzazione di tutti i titolari nel sistema

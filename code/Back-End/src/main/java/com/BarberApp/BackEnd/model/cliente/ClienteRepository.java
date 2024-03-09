@@ -27,6 +27,7 @@ public interface ClienteRepository extends ListCrudRepository<Cliente, Integer>{
 	//login di un cliente
 	@Query(value = "SELECT * FROM clienti c WHERE c.email = ?1 AND c.password = ?2", nativeQuery = true)
 	Optional<Cliente> getClienteByEmailAndPassword(String email, String password);
+
 	
 
 }

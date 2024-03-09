@@ -65,7 +65,7 @@ public class DipendenteController {
 	public int update(@RequestBody Dipendente dipendente) {
 		Dipendente dipendente1 = dipendenteDAO.getDipendenteById(dipendente.getId()).orElse(null);
 		if(dipendente1 != null) {
-			if(dipendente.getEmail() == dipendente1.getEmail()) {
+			if(dipendente.getEmail().equals(dipendente1.getEmail())) {
 				dipendenteDAO.updateEmployee(dipendente);
 				return 200;
 			}
@@ -107,5 +107,11 @@ public class DipendenteController {
 		public Optional<Dipendente> getDipendenteById(@RequestBody int id){
 			return dipendenteDAO.getDipendenteById(id);
 		}
+
+	@PostMapping("/dipendenti/getDipendenteByEmail")
+	public Dipendente getDipendenteByEmail(@RequestBody() String email){
+		return dipendenteDAO.getDipendenteByEmail(email);
+
+	}
 
 }

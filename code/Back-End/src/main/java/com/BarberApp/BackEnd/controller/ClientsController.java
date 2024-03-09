@@ -3,6 +3,7 @@ package com.BarberApp.BackEnd.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.BarberApp.BackEnd.MailService.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +17,16 @@ public class ClientsController {
 	
 	@Autowired
 	private ClienteDAO clienteDAO;
+
+	@Autowired
+	private EmailServiceImpl mailService;
 	
 	//visualizzazione di tutti i clienti registrati nel sistema
 	@GetMapping("/clienti/get-all")
 	public List<Cliente> getAllClients(){
 		return clienteDAO.getAllClienti();	
 	}
+
 	
 	//registrazione di un'utente nel sistema
 	@PostMapping("/clienti/save")
@@ -62,7 +67,7 @@ public class ClientsController {
 	public int update(@RequestBody Cliente cliente) {
 		Cliente cliente1 = clienteDAO.getClienteById(cliente.getId()).orElse(null);
 		if(cliente1 != null) {
-			if(cliente.getEmail() == cliente1.getEmail()) {
+			if(cliente.getEmail().equals(cliente1.getEmail())) {
 				clienteDAO.updateClient(cliente);
 				return 200;
 			}
@@ -84,6 +89,13 @@ public class ClientsController {
 	public Optional<Cliente> login(@RequestParam() String email, @RequestParam() String password){
 		return clienteDAO.loginCliente(email, password);
 	}
+
+	@PostMapping("/clienti/getClienteByEmail")
+	public Cliente getClienteByEmail(@RequestBody() String email){
+		return clienteDAO.getClienteByEmail(email);
+
+	}
+
 	
 	
  

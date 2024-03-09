@@ -144,6 +144,7 @@ class BookTile extends StatelessWidget {
                 child: InkWell(
                     onTap: () async {
                       bool? res = await showDialog<bool>(
+                        barrierDismissible: false,
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text(

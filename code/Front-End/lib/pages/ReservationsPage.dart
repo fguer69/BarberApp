@@ -246,6 +246,7 @@ class ReservationsPageState_ extends State<ReservationsPage> {
                         _oraFinale.hour == 14) {
                       showDialog(
                         context: context,
+                        barrierDismissible: false,
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text('Prenotazione non riuscita'),

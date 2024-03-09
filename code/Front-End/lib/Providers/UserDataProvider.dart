@@ -1,5 +1,3 @@
-
-
 import 'package:barberapp_front_end/Model/Appuntamento.dart';
 import 'package:flutter/material.dart';
 import 'package:barberapp_front_end/Model/Cliente.dart';
@@ -20,6 +18,8 @@ class UserDataProvider with ChangeNotifier {
   late Dipendente _dipendente;
   late Titolare _titolare;
   late Servizio _servizio;
+  late String codiceRecupero;
+  late String email;
 
   late Appuntamento _appuntamento;
 
@@ -42,34 +42,50 @@ class UserDataProvider with ChangeNotifier {
       return null;
   }
 
+  String get Email => email;
+  void setEmail(String Email) {
+    email = Email;
+    notifyListeners();
+  }
+
+  String get CodiceRecupero => codiceRecupero;
+  void setCodiceRecupero(String codice) {
+    codiceRecupero = codice;
+    notifyListeners();
+  }
+
   List<Cliente> get clienti => _clienti;
-  void setClienti(List<Cliente> clienti){
+  void setClienti(List<Cliente> clienti) {
     _clienti = clienti;
     notifyListeners();
   }
-  void addClienti(Cliente cliente){
+
+  void addClienti(Cliente cliente) {
     _clienti.add(cliente);
     notifyListeners();
   }
 
-  void removeClienti(Cliente cliente){
+  void removeClienti(Cliente cliente) {
     _clienti.remove(cliente);
     notifyListeners();
   }
+
   List<Dipendente> get dipendenti => _dipendenti;
-  void setDipendenti(List<Dipendente> dipendenti){
+  void setDipendenti(List<Dipendente> dipendenti) {
     _dipendenti = dipendenti;
     notifyListeners();
   }
-  void addDipendenti(Dipendente dipendente){
+
+  void addDipendenti(Dipendente dipendente) {
     _dipendenti.add(dipendente);
     notifyListeners();
   }
 
-  void removeDipendenti(Dipendente dipendente){
+  void removeDipendenti(Dipendente dipendente) {
     _dipendenti.remove(dipendente);
     notifyListeners();
   }
+
   Appuntamento get appuntamento => _appuntamento;
 
   void setAppuntamento(Appuntamento appuntamento) {
@@ -79,34 +95,36 @@ class UserDataProvider with ChangeNotifier {
 
   List<Appuntamento> get appuntamenti => _appuntamenti;
 
-  void setAppuntamenti(List<Appuntamento> appuntamenti){
+  void setAppuntamenti(List<Appuntamento> appuntamenti) {
     _appuntamenti = appuntamenti;
     notifyListeners();
   }
 
-  void addAppuntamenti(Appuntamento appuntamenti){
+  void addAppuntamenti(Appuntamento appuntamenti) {
     _appuntamenti.add(appuntamenti);
     notifyListeners();
   }
-  void deleteAppuntamenti(Appuntamento appuntamenti){
+
+  void deleteAppuntamenti(Appuntamento appuntamenti) {
     _appuntamenti.remove(appuntamenti);
     notifyListeners();
   }
 
   List<Servizio> get servizi => _servizi;
-  void setServizi(List<Servizio> servizi){
+  void setServizi(List<Servizio> servizi) {
     _servizi = servizi;
     notifyListeners();
   }
-  void addServizi(Servizio servizio){
+
+  void addServizi(Servizio servizio) {
     _servizi.add(servizio);
     notifyListeners();
   }
-  void deleteServizio(Servizio servizio){
+
+  void deleteServizio(Servizio servizio) {
     _servizi.remove(servizio);
     notifyListeners();
   }
-
 
   dynamic get utente => _utente;
 

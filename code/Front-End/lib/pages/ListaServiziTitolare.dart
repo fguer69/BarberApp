@@ -201,6 +201,7 @@ class _ServiceTileState extends State<ServiceTile> {
                 onPressed: () async {
                   bool? res = await showDialog<bool>(
                     context: context,
+                    barrierDismissible: false,
                     builder: (context) => AlertDialog(
                       title:
                           const Text("Vuoi davvero eliminare questo servizio?"),
@@ -233,6 +234,7 @@ class _ServiceTileState extends State<ServiceTile> {
   Future<void> _showEditDialog() async {
     return showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Modifica Costo'),

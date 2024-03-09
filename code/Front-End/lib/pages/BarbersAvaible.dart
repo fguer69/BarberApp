@@ -13,7 +13,6 @@ import '../Model/Dipendente.dart';
 import '../RouteGenerator.dart';
 import '../color_schemes.g.dart';
 
-
 class BarbersAvaible extends StatefulWidget {
   const BarbersAvaible({super.key});
 
@@ -22,7 +21,8 @@ class BarbersAvaible extends StatefulWidget {
 }
 
 class BarbersAvaibleState extends State<BarbersAvaible> {
-  late Appuntamento appuntamento = Provider.of<UserDataProvider>(context, listen: true).appuntamento;
+  late Appuntamento appuntamento =
+      Provider.of<UserDataProvider>(context, listen: true).appuntamento;
   late List<Dipendente> dipendentiDisponibili;
   Dipendente? _selectedDipendente;
 
@@ -57,8 +57,7 @@ class BarbersAvaibleState extends State<BarbersAvaible> {
             )
           ],
         ),
-        body: _body()
-    );
+        body: _body());
   }
 
   FutureBuilder _body() {
@@ -66,7 +65,8 @@ class BarbersAvaibleState extends State<BarbersAvaible> {
         RetrofitService(Dio(BaseOptions(contentType: "application/json")));
 
     return FutureBuilder(
-      future: retrofitService.getFreeEmployee(appuntamento.date, appuntamento.time),
+      future:
+          retrofitService.getFreeEmployee(appuntamento.date, appuntamento.time),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data == null || snapshot.data == [])
@@ -82,7 +82,6 @@ class BarbersAvaibleState extends State<BarbersAvaible> {
       },
     );
   }
-
 
   Widget _dipendentiDisponibili(List<Dipendente> dipendentiDisponibili) {
     return Column(
@@ -105,111 +104,124 @@ class BarbersAvaibleState extends State<BarbersAvaible> {
           child: ListView.builder(
             itemCount: dipendentiDisponibili.length,
             itemBuilder: (context, index) => DipendentiDisponibiliTile(
-                dipendente: dipendentiDisponibili[index],
-                    isSelected: (dipendentiDisponibili[index].id == _selectedDipendente?.id) ? true : false,
-              onTap: (){
-                  setState(() {
-                    _selectedDipendente = dipendentiDisponibili[index];
-                    print(dipendentiDisponibili[index] == _selectedDipendente);
-                    //Appuntamento appuntamento = Provider.of<UserDataProvider>(context, listen: false).appuntamento;
-                    //appuntamento.dipendente = _selectedDipendente;
-                    //Navigator.pushNamed(context, '/reservationsPage');
-                  });
+              dipendente: dipendentiDisponibili[index],
+              isSelected:
+                  (dipendentiDisponibili[index].id == _selectedDipendente?.id)
+                      ? true
+                      : false,
+              onTap: () {
+                setState(() {
+                  _selectedDipendente = dipendentiDisponibili[index];
+                  print(dipendentiDisponibili[index] == _selectedDipendente);
+                  //Appuntamento appuntamento = Provider.of<UserDataProvider>(context, listen: false).appuntamento;
+                  //appuntamento.dipendente = _selectedDipendente;
+                  //Navigator.pushNamed(context, '/reservationsPage');
+                });
               },
             ),
           ),
         ),
-        _loading ? Center(child: CircularProgressIndicator(),):
-        FilledButton(
-          onPressed: () async{
-            if(_selectedDipendente == null){
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Prenotazione non riuscita'),
-                    content: Text('Seleziona un barbiere!'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context); // Chiudi il popup
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
-            else{
-              setState(() {
-                _loading = true;
-              });
-              final retrofitService = RetrofitService(Dio(BaseOptions(contentType: "application/json")));
-              appuntamento.cliente = Provider.of<UserDataProvider>(context, listen: false).cliente;
-              appuntamento.dipendente = _selectedDipendente;
-              print(appuntamento.toJson());
-              int code = await retrofitService.saveAppuntamento(appuntamento);
-              if(code == 200){
-                Provider.of<UserDataProvider>(context, listen: false).setAppuntamento(appuntamento);
-                Provider.of<UserDataProvider>(context, listen: false).addAppuntamenti(appuntamento);
-                setState(() {
-                  _loading = false;
-                });
-                Navigator.pushNamed(context,'/prenotazioneEffettuata');
-              }
-              else{
-                setState(() {
-                  _loading = false;
-                });
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Prenotazione non riuscita'),
-                      content: Text('Mi dispiace, ma hai già effettuato una prenotazione in questa giornata.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context, '/reservationsPage');// Chiudi il popup
-                          },
-                          child: Text('OK'),
-                        ),
-                      ],
+        _loading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : FilledButton(
+                onPressed: () async {
+                  if (_selectedDipendente == null) {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Prenotazione non riuscita'),
+                          content: Text('Seleziona un barbiere!'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context); // Chiudi il popup
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
                     );
-                  },
-                );
-              }
-
-            }
-          },
-          style: ButtonStyle(
-            backgroundColor:
-                const MaterialStatePropertyAll<Color>(Color(0xFF102C57)),
-            padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(
-                EdgeInsets.fromLTRB(0, 0, 0, 0)),
-            fixedSize: const MaterialStatePropertyAll(
-              Size(226, 74),
-            ),
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                  } else {
+                    setState(() {
+                      _loading = true;
+                    });
+                    final retrofitService = RetrofitService(
+                        Dio(BaseOptions(contentType: "application/json")));
+                    appuntamento.cliente =
+                        Provider.of<UserDataProvider>(context, listen: false)
+                            .cliente;
+                    appuntamento.dipendente = _selectedDipendente;
+                    print(appuntamento.toJson());
+                    int code =
+                        await retrofitService.saveAppuntamento(appuntamento);
+                    if (code == 200) {
+                      Provider.of<UserDataProvider>(context, listen: false)
+                          .setAppuntamento(appuntamento);
+                      Provider.of<UserDataProvider>(context, listen: false)
+                          .addAppuntamenti(appuntamento);
+                      setState(() {
+                        _loading = false;
+                      });
+                      Navigator.pushNamed(context, '/prenotazioneEffettuata');
+                    } else {
+                      setState(() {
+                        _loading = false;
+                      });
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Prenotazione non riuscita'),
+                            content: Text(
+                                'Mi dispiace, ma hai già effettuato una prenotazione in questa giornata.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context,
+                                      '/reservationsPage'); // Chiudi il popup
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      const MaterialStatePropertyAll<Color>(Color(0xFF102C57)),
+                  padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(
+                      EdgeInsets.fromLTRB(0, 0, 0, 0)),
+                  fixedSize: const MaterialStatePropertyAll(
+                    Size(226, 74),
+                  ),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                ),
+                child: const Text(
+                  "Conferma",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    height: 0.06,
+                  ),
+                ),
               ),
-            ),
-          ),
-          child: const Text(
-            "Conferma",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w600,
-              height: 0.06,
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -260,4 +272,3 @@ class DipendentiDisponibiliTile extends StatelessWidget {
     );
   }
 }
-

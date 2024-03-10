@@ -17,12 +17,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -86,8 +88,34 @@ public class ServizioControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/servizi/get-all").contentType(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
         List<Servizio> result = servizioDAO.getAll();
-        Assertions.assertEquals(servizi.size(),result.size());
+        assertEquals(servizi.size(),result.size());
     }
 
+    @Test
+    @DisplayName("Aggiornamento delle informazioni del servizio")
+    void testUpdateServiceSuccesso() throws Exception
+    {
+        when(servizioDAO.serviceUpdate(any())).thenReturn(true);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post("/servizi/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(servizio)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("200", result.getResponse().getContentAsString());
+        verify(servizioDAO).serviceUpdate(any());
+    }
 
+    @Test
+    @DisplayName("Aggiornamento delle informazioni del servizio")
+    void testUpdateServiceFallito() throws Exception
+    {
+        when(servizioDAO.serviceUpdate(any())).thenReturn(false);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/servizi/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(servizio)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("501", result.getResponse().getContentAsString());
+        verify(servizioDAO).serviceUpdate(any());
+    }
 }

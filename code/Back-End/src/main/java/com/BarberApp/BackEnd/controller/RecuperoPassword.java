@@ -56,14 +56,14 @@ public class RecuperoPassword {
         {
             return null;
         }
-        email = email.replace("{", "");
+       /* email = email.replace("{", "");
         email = email.replace("}", "");
         email = email.replace(" ", "");
         email = email.replace("\"","");
-        String email2 = email.substring(8);
-        System.out.println(email2);
+        String email2 = email.substring(8);*/
+        System.out.println(email);
         try {
-            mailService.sendSimpleMessage(email2, "Recupero Password", codeTemp);
+            mailService.sendSimpleMessage(email, "Recupero Password", codeTemp);
         }
         catch (Exception e){
             return null;

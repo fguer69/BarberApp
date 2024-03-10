@@ -337,6 +337,7 @@ class _SignupDipendente_pageState extends State<SignupDipendente_page> {
                                         });
                                         showDialog(
                                           context: context,
+                                          barrierDismissible: false,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text(
@@ -362,6 +363,7 @@ class _SignupDipendente_pageState extends State<SignupDipendente_page> {
                                         });
                                         showDialog(
                                           context: context,
+                                          barrierDismissible: false,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text(

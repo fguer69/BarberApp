@@ -77,6 +77,7 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                           } else if (value == 2) {
                             showDialog(
                               context: context,
+                              barrierDismissible: false,
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text(
@@ -256,7 +257,7 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                           child: Container(
                             padding: const EdgeInsets.only(left: 10, top: 6),
                             width: 316,
-                            height: 63,
+                            height: 75,
                             decoration: ShapeDecoration(
                               color: Color(0x26A4A9AE),
                               shape: RoundedRectangleBorder(
@@ -311,8 +312,6 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                               autofocus: false,
                               obscureText: true,
                               validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.minLength(8,
-                                    errorText: 'Password troppo corta'),
                                 FormBuilderValidators.maxLength(16,
                                     errorText: 'Password troppo lunga'),
                               ]),
@@ -409,6 +408,7 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                           });
                           showDialog(
                             context: context,
+                            barrierDismissible: false,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text('Update'),
@@ -431,6 +431,7 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                           });
                           showDialog(
                             context: context,
+                            barrierDismissible: false,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text('Update Failed'),

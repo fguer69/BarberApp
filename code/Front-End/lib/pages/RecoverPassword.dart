@@ -13,17 +13,17 @@ import '../Model/Cliente.dart';
 import '../Retrofit/RetrofitService.dart';
 import 'package:barberapp_front_end/RouteGenerator.dart';
 
-class AggiungiServizi extends StatefulWidget {
-  const AggiungiServizi({super.key});
+class RecoverPassword extends StatefulWidget {
+  const RecoverPassword({super.key});
 
   @override
-  State<AggiungiServizi> createState() => _AggiungiServiziState();
+  State<RecoverPassword> createState() => _RecoverPassword();
 }
 
-class _AggiungiServiziState extends State<AggiungiServizi> {
+class _RecoverPassword extends State<RecoverPassword> {
   final _formKey = GlobalKey<FormBuilderState>();
-  String _selectedImage = 'taglio';
   bool _loading = false;
+  String? codeHashed = "";
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _AggiungiServiziState extends State<AggiungiServizi> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: const Text(
-            'Aggiungi servizi',
+            'Recupera password',
             style: TextStyle(
               color: Color(0xFF23303B),
               fontSize: 22,
@@ -77,11 +77,11 @@ class _AggiungiServiziState extends State<AggiungiServizi> {
                               ),
                             ),
                             child: FormBuilderTextField(
-                              name: 'descrizione',
+                              name: 'Email',
                               autofocus: false,
                               textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(
-                                labelText: 'Descrizione',
+                                labelText: 'Inserisci la tua email',
                                 labelStyle: TextStyle(
                                   color: Color(0xFF23303B),
                                   fontSize: 19,
@@ -95,94 +95,10 @@ class _AggiungiServiziState extends State<AggiungiServizi> {
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(
                                     errorText: 'Il campo non può essere vuoto'),
+                                FormBuilderValidators.email(
+                                    errorText: 'Email non valida!'),
                               ]),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 10, top: 6),
-                            width: 316,
-                            height: 80,
-                            decoration: ShapeDecoration(
-                              color: Color(0x26A4A9AE),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: FormBuilderTextField(
-                              name: 'prezzo',
-                              autofocus: false,
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(
-                                    errorText: 'Il campo non può essere vuoto'),
-                                FormBuilderValidators.numeric(
-                                  errorText: 'Inserire un prezzo valido!',
-                                ),
-                                FormBuilderValidators.min(
-                                  1,
-                                  errorText: 'Inserire un prezzo valido!',
-                                ),
-                              ]),
-                              textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
-                                labelText: 'Prezzo',
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF23303B),
-                                  fontSize: 19,
-                                  fontStyle: FontStyle.italic,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0.08,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Text(
-                            'Seleziona un icona per il tuo servizio',
-                            style: TextStyle(
-                              color: Color(0xFF23303B),
-                              fontSize: 22,
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'ABeeZee',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: DropdownButton<String>(
-                            value: _selectedImage,
-                            menuMaxHeight: 200,
-                            borderRadius: BorderRadius.circular(16),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedImage = newValue!;
-                              });
-                            },
-                            items: GetImages.images.keys.map((String key) {
-                              return DropdownMenuItem<String>(
-                                value: key,
-                                child: SizedBox(
-                                  width:
-                                      50, // Larghezza dell'elemento a discesa
-                                  height: 50, // Altezza dell'elemento a discesa
-                                  child: Image.asset(
-                                    // Immagine all'interno dell'elemento a discesa
-                                    GetImages.images[
-                                        key]!, // Ottieni il percorso dell'immagine dalla mappa
-                                    fit: BoxFit
-                                        .cover, // Adatta l'immagine all'elemento a discesa
-                                  ),
-                                ),
-                              );
-                            }).toList(),
                           ),
                         ),
                       ],
@@ -202,48 +118,39 @@ class _AggiungiServiziState extends State<AggiungiServizi> {
                                 _loading = true;
                               });
                               _formKey.currentState?.save();
-                              print(Provider.of<UserDataProvider>(context,
-                                      listen: false)
-                                  .titolare
-                                  .id);
-                              Servizio servizio = Servizio(
-                                  0,
-                                  _formKey.currentState!.fields['descrizione']!
-                                      .value
-                                      .toString(),
-                                  GetImages.images[_selectedImage]!,
-                                  double.parse(_formKey
-                                      .currentState!.fields['prezzo']!.value),
-                                  [],
-                                  Provider.of<UserDataProvider>(context,
-                                          listen: false)
-                                      .titolare);
-                              print(servizio);
+
                               final retrofitService = RetrofitService(Dio(
                                   BaseOptions(
                                       contentType: "application/json")));
-                              int code =
-                                  await retrofitService.saveServizio(servizio);
+                              codeHashed = await retrofitService.getCodeHash(
+                                  _formKey.currentState!.fields['Email']!.value
+                                      .toString());
+                              Provider.of<UserDataProvider>(context,
+                                      listen: false)
+                                  .setEmail(_formKey
+                                      .currentState!.fields['Email']!.value
+                                      .toString());
                               setState(() {
                                 _loading = false;
                               });
-                              if (code == 200) {
+                              if (codeHashed != null) {
                                 Provider.of<UserDataProvider>(context,
                                         listen: false)
-                                    .addServizi(servizio);
+                                    .setCodiceRecupero(codeHashed!);
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text('Salvato'),
+                                      title:
+                                          Text('Codice inviato con successo!'),
                                       content: Text(
-                                          'Servizio aggiunto con successo'),
+                                          'Ti abbiamo inviato un codice via email che ti servirà per resettare la password. Se non la trovi controlla negli spam.'),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
                                             Navigator.pushNamed(context,
-                                                '/NavigationTabTitolare'); // Chiudi il popup
+                                                '/ModificaPassword'); // Chiudi il popup
                                           },
                                           child: Text('OK'),
                                         ),
@@ -257,9 +164,9 @@ class _AggiungiServiziState extends State<AggiungiServizi> {
                                   barrierDismissible: false,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text('Update Failed'),
+                                      title: Text('Invio Fallito'),
                                       content: Text(
-                                          'Si è verificato un problema durante l\'aggiornamento. Per favore, riprova.'),
+                                          'Si è verificato un\' durante l\'invio del codice. Riprovare.'),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
@@ -294,7 +201,7 @@ class _AggiungiServiziState extends State<AggiungiServizi> {
                             ),
                           ),
                           child: const Text(
-                            "Salva",
+                            "Send",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 24,

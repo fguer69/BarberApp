@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: FormBuilderTextField(
                                 name: 'email',
-                                autofocus: true,
+                                autofocus: false,
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(
                                       errorText:
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: FormBuilderTextField(
                                 name: 'password',
-                                autofocus: true,
+                                autofocus: false,
                                 obscureText: isObscured,
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(
@@ -216,6 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                                           });
                                           showDialog(
                                             context: context,
+                                            barrierDismissible: false,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
                                                 title:
@@ -271,7 +272,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                           Padding(
-                            padding: EdgeInsets.only(top: 10),
+                            padding: EdgeInsets.only(top: 60),
                             child: TextButton(
                               onPressed: () {
                                 Navigator.pushNamed(
@@ -280,11 +281,34 @@ class _LoginPageState extends State<LoginPage> {
                               child: const Text(
                                 'Non hai un account? Registrati',
                                 style: TextStyle(
-                                  color: Color(0xFF102C57),
-                                  fontSize: 18,
+                                  color: Colors.blue,
+                                  fontSize: 25,
                                   fontStyle: FontStyle.italic,
                                   fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w500,
+                                  height: 0.08,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.blue,
+                                  decorationStyle: TextDecorationStyle.double,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/RecuperaPassword');
+                              },
+                              child: const Text(
+                                'Non ricordi la password? Recuperala!',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 23,
+                                  fontStyle: FontStyle.italic,
+                                  fontFamily: 'ABeeZee',
+                                  fontWeight: FontWeight.w500,
                                   height: 0.08,
                                   decoration: TextDecoration.underline,
                                   decorationColor: Colors.blue,

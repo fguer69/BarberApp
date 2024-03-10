@@ -14,6 +14,18 @@ abstract class RetrofitService {
   factory RetrofitService(Dio dio) = _RetrofitService;
 
   //Qui vanno scritte le API rest che vanno fatte al backend proprio come sono descritte all'interno del backend controller
+  @POST('/recover/recover-password')
+  Future<String?> getCodeHash(@Body() String email);
+
+  @POST('/clienti/getClienteByEmail')
+  Future<Cliente?> getClienteByEmail(@Body() String email);
+
+  @POST('/titolari/getTitolareByEmail')
+  Future<Titolare?> getTitolareByEmail(@Body() String email);
+
+  @POST('/dipendenti/getDipendenteByEmail')
+  Future<Dipendente?> getDipendenteByEmail(@Body() String email);
+
   @GET('/clienti/get-all')
   Future<List<Cliente>> getPosts();
 

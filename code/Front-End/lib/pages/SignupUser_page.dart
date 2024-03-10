@@ -313,6 +313,7 @@ class _SignupUser_pageState extends State<SignupUser_page> {
                                       });
                                       showDialog(
                                         context: context,
+                                        barrierDismissible: false,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             title: Text(
@@ -337,6 +338,7 @@ class _SignupUser_pageState extends State<SignupUser_page> {
                                       });
                                       showDialog(
                                         context: context,
+                                        barrierDismissible: false,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             title: Text(

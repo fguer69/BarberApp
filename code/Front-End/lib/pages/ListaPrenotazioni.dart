@@ -188,6 +188,7 @@ class BookTile extends StatelessWidget {
                           onTap: () async {
                             bool? res = await showDialog<bool>(
                               context: context,
+                              barrierDismissible: false,
                               builder: (context) => AlertDialog(
                                 title: const Text(
                                     "Vuoi davvero eliminare questo elemento?"),

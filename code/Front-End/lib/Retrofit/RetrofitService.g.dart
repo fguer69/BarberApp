@@ -21,6 +21,115 @@ class _RetrofitService implements RetrofitService {
   String? baseUrl;
 
   @override
+  Future<String?> getCodeHash(String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = email;
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/recover/recover-password',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<Cliente?> getClienteByEmail(String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = email;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>?>(_setStreamType<Cliente>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/clienti/getClienteByEmail',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data == null ? null : Cliente.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Titolare?> getTitolareByEmail(String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = email;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>?>(_setStreamType<Titolare>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/titolari/getTitolareByEmail',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value =
+        _result.data == null ? null : Titolare.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Dipendente?> getDipendenteByEmail(String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = email;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>?>(_setStreamType<Dipendente>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/dipendenti/getDipendenteByEmail',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value =
+        _result.data == null ? null : Dipendente.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<List<Cliente>> getPosts() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

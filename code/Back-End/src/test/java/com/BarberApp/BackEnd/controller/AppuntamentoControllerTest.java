@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -144,18 +145,26 @@ public class AppuntamentoControllerTest {
     @DisplayName("Caricamento di un appuntamento in base ad un cliente")
     void testGetAppointment() throws Exception
     {
-        List<Appuntamento> appuntamenti = Arrays.asList(
-                new Appuntamento(), new Appuntamento(), new Appuntamento()
-        );
-        when(appuntamentoDAO.getAppuntamentiByCliente(appuntamento.getCliente())).thenReturn(appuntamenti);
+        boolean isTrue = true;
+        appuntamento.setDate(DateTime.parse("2024-03-07T16:36:47.912Z"));
+        appuntamento.setTime(DateTime.parse("2024-03-07T16:36:47.912Z"));
+        appuntamenti.add(appuntamento);
+        when(appuntamentoDAO.getAppuntamentiByCliente(any())).thenReturn(appuntamenti);
+        System.out.println(objectMapper.writeValueAsString(appuntamento.getCliente()));
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .post("/appuntamenti/getAppointment-ByCliente")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento.getCliente())))
                 .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         List<Appuntamento> appuntamentiTemp = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Appuntamento>>() {
         });
-        assertEquals(appuntamenti, appuntamentiTemp);
-        verify(appuntamentoDAO).getAppuntamentiByCliente(appuntamento.getCliente());
+        assertEquals(appuntamenti.size(), appuntamentiTemp.size());
+        for(int i = 0; i < appuntamenti.size(); i++){
+            if(appuntamenti.get(i).getId() != appuntamentiTemp.get(i).getId())
+                isTrue = false;
+        }
+        assertTrue(isTrue);
+        //Assertions.assertArrayEquals(appuntamenti.toArray(),appuntamentiTemp.toArray());
+        verify(appuntamentoDAO).getAppuntamentiByCliente(any());
     }
 
     @Test

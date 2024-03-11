@@ -315,6 +315,12 @@ class _ProfiloDipendenteState extends State<ProfiloDipendente> {
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.maxLength(16,
                                     errorText: 'Password troppo lunga'),
+                                (value) {
+                                  if (value.toString().length >= 1 &&
+                                      value.toString().length <= 8) {
+                                    return 'Password troppo corta';
+                                  }
+                                }
                               ]),
                               textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(

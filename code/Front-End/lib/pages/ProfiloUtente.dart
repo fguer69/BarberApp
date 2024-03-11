@@ -315,6 +315,12 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.maxLength(16,
                                     errorText: 'Password troppo lunga'),
+                                (value) {
+                                  if (value.toString().length >= 1 &&
+                                      value.toString().length <= 8) {
+                                    return 'Password troppo corta';
+                                  }
+                                }
                               ]),
                               textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(
@@ -365,8 +371,25 @@ class _ProfiloUtenteState extends State<ProfiloUtente> {
                           codeEmail = ControlloMail;
                         });
                       }
+                      /* if (_formKey.currentState!.fields['password']?.value !=
+                              null &&
+                          _formKey.currentState!.fields['password']!.value
+                              .toString()
+                              .isNotEmpty &&
+                          _formKey.currentState!.fields['password']!.value
+                                  .toString()
+                                  .length <
+                              8) {
+                        setState(() {
+                          _formKey.currentState?.fields['password']!
+                              .invalidate("Password troppo corta!");
+                          _formKey.currentState?.setState(() {});
+                        });
+                      }*/
+
                       final validation =
                           _formKey.currentState?.validate() ?? false;
+
                       if (validation!) {
                         setState(() {
                           _loading = true;

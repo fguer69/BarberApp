@@ -7,11 +7,13 @@ import com.BarberApp.BackEnd.model.dipendente.Dipendente;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,13 +24,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -108,27 +113,75 @@ public class AppuntamentoControllerTest {
     }
     @Test
     @DisplayName("Salvataggio di un appuntamento nel database")
-    public void saveAppuntamento() throws Exception{
+    public void saveAppuntamentoSuccesso() throws Exception{
         appuntamento.setDate(DateTime.parse("2024-03-07T16:36:47.912Z"));
         appuntamento.setTime(DateTime.parse("2024-03-07T16:36:47.912Z"));
         when(appuntamentoDAO.checkAppuntamento(any(), any())).thenReturn(0);
-        doAnswer(invocation -> {
-            System.out.println("APPUNTAMENTO SALVATO CON SUCCESSO");
-            return null;
-        }).when(appuntamentoDAO).saveAppointment(any());
-        mockMvc.perform(MockMvcRequestBuilders
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .post("/appuntamenti/save")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento)))
-                .andExpect(MockMvcResultMatchers.status().is(200));
-        System.out.println(objectMapper.writeValueAsString(appuntamento));
-        /*if(appuntamentoDAO.checkAppuntamento(cliente, appuntamento) <= 0){
-            appuntamentoDAO.saveAppointment(appuntamento);
-        }
-        else{
-            System.out.println("Salvataggio appuntamento fallita");
-        }*/
-        //verify(appuntamentoDAO).checkAppuntamento(appuntamento.getCliente(),appuntamento);
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("200", result.getResponse().getContentAsString());
         verify(appuntamentoDAO, times(1)).checkAppuntamento(any(), any());
         verify(appuntamentoDAO, times(1)).saveAppointment(any());
+    }
+
+    @Test
+    @DisplayName("Salvataggio di un appuntamento nel database")
+    public void saveAppuntamentoFallita() throws Exception{
+        appuntamento.setDate(DateTime.parse("2024-03-07T16:36:47.912Z"));
+        appuntamento.setTime(DateTime.parse("2024-03-07T16:36:47.912Z"));
+        when(appuntamentoDAO.checkAppuntamento(any(), any())).thenReturn(1);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/appuntamenti/save")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("500", result.getResponse().getContentAsString());
+        verify(appuntamentoDAO, times(1)).checkAppuntamento(any(), any());
+        verify(appuntamentoDAO, never()).saveAppointment(any());
+    }
+
+    @Test
+    @DisplayName("Caricamento di un appuntamento in base ad un cliente")
+    void testGetAppointment() throws Exception
+    {
+        boolean isTrue = true;
+        appuntamento.setDate(DateTime.parse("2024-03-07T16:36:47.912Z"));
+        appuntamento.setTime(DateTime.parse("2024-03-07T16:36:47.912Z"));
+        appuntamenti.add(appuntamento);
+        when(appuntamentoDAO.getAppuntamentiByCliente(any())).thenReturn(appuntamenti);
+        System.out.println(objectMapper.writeValueAsString(appuntamento.getCliente()));
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/appuntamenti/getAppointment-ByCliente")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento.getCliente())))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        List<Appuntamento> appuntamentiTemp = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Appuntamento>>() {
+        });
+        assertEquals(appuntamenti.size(), appuntamentiTemp.size());
+        for(int i = 0; i < appuntamenti.size(); i++){
+            if(appuntamenti.get(i).getId() != appuntamentiTemp.get(i).getId())
+                isTrue = false;
+        }
+        assertTrue(isTrue);
+        //Assertions.assertArrayEquals(appuntamenti.toArray(),appuntamentiTemp.toArray());
+        verify(appuntamentoDAO).getAppuntamentiByCliente(any());
+    }
+
+    @Test
+    @DisplayName("Caricamento di un appuntamento in base ad un dipendente")
+    void testgetAppointmentByDipendente() throws Exception
+    {
+        List<Appuntamento> appuntamenti = Arrays.asList(
+                new Appuntamento(), new Appuntamento(), new Appuntamento()
+        );
+        when(appuntamentoDAO.getAppuntamentiByDipendente(appuntamento.getDipendente())).thenReturn(appuntamenti);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/appuntamenti/getAppointment-ByDipendente")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento.getDipendente())))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        List<Appuntamento> appuntamentiTemp = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Appuntamento>>() {
+        });
+        assertEquals(appuntamenti, appuntamentiTemp);
+        verify(appuntamentoDAO).getAppuntamentiByDipendente(appuntamento.getDipendente());
     }
 }

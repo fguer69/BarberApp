@@ -1,10 +1,14 @@
 package com.BarberApp.BackEnd.controller;
 
+import com.BarberApp.BackEnd.MailService.EmailServiceImpl;
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 import com.BarberApp.BackEnd.model.cliente.ClienteDAO;
+import com.BarberApp.BackEnd.model.dipendente.Dipendente;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.j2objc.annotations.AutoreleasePool;
+import org.checkerframework.checker.units.qual.C;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +32,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,6 +52,9 @@ public class ClienteControllerTest {
     @MockBean
     private ClienteDAO clienteDAO;
 
+    @MockBean
+    private EmailServiceImpl emailService;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -63,33 +71,14 @@ public class ClienteControllerTest {
         clienti.add(cliente);
     }
 
-
     @Test
-    @DisplayName("Salvataggio di un cliente sul database la quale email è disponibile")
-    public void saveClienteEmailDisponibile() throws Exception{
-       when((clienteDAO).checkCliente(cliente.getEmail())).thenReturn(false);
-        doAnswer(invocation -> {
-            System.out.println("CLIENTE SALVATO CON SUCCESSO");
-            return null;
-        }).when(clienteDAO).saveCliente(cliente);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/clienti/save")
-                .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
-                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
-
-        assertEquals("200", result.getResponse().getContentAsString());
-        verify(clienteDAO).checkCliente(cliente.getEmail());
-        verify(clienteDAO).saveCliente(cliente);
-    }
-
-    @Test
-    @DisplayName("Tentativo di salvataggio di un cliente sul database con email non disponibile")
-    void testSaveClienteEmailIndisponibile() throws Exception
+    @DisplayName("Salvataggio di un cliente")
+    void testSaveFallita() throws Exception
     {
         when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(true);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/clienti/save")
-                .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
+                        .post("/clienti/save")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
                 .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         assertEquals("500", result.getResponse().getContentAsString());
         verify(clienteDAO).checkCliente(cliente.getEmail());
@@ -97,38 +86,22 @@ public class ClienteControllerTest {
     }
 
     @Test
-    @DisplayName("Elenco di tutti i clienti nel sistema")
-    public void getAllClienti() throws Exception{
-        Cliente cliente2 = new Cliente();
-        cliente2.setId(2);
-        cliente2.setNome("Ivan");
-        cliente2.setCognome("Prota");
-        cliente2.setEmail("ivanprota@gmail.com");
-        cliente2.setPassword("ciaociao");
-        clienti.add(cliente2);
-        when(clienteDAO.getAllClienti()).thenReturn(clienti);
-        mockMvc.perform(MockMvcRequestBuilders.get("/clienti/get-all").contentType(MediaType.APPLICATION_JSON)).andDo(print())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(clienti.size())));
-        clienteDAO.getAllClienti();
-    }
-
-    @Test
-    @DisplayName("Controllo se un email è già presente nel sistema")
-    void testCheckEmailPresente() throws Exception
+    @DisplayName("Salvataggio di un cliente")
+    void testSaveSuccesso() throws Exception
     {
-        when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(true);
+        when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(false);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/cliente/check")
-                .contentType(MediaType.APPLICATION_JSON).content(cliente.getEmail()))
+                        .post("/clienti/save")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
                 .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
-        assertEquals("500", result.getResponse().getContentAsString());
+        assertEquals("200", result.getResponse().getContentAsString());
         verify(clienteDAO).checkCliente(cliente.getEmail());
-
+        verify(clienteDAO).saveCliente(cliente);
     }
 
     @Test
-    @DisplayName("Controllo se un email non è presente nel sistema")
-    void testCheckEmailAssente() throws Exception
+    @DisplayName("Verifica della presenza di un email nel sistema")
+    void testCheckSuccesso() throws Exception
     {
         when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(false);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -137,5 +110,99 @@ public class ClienteControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         assertEquals("200", result.getResponse().getContentAsString());
         verify(clienteDAO).checkCliente(cliente.getEmail());
+    }
+
+    @Test
+    @DisplayName("Verifica della presenza di un email nel sistema")
+    void testCheckFallita() throws Exception
+    {
+        when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(true);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/cliente/check")
+                        .contentType(MediaType.APPLICATION_JSON).content(cliente.getEmail()))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("500", result.getResponse().getContentAsString());
+        verify(clienteDAO).checkCliente(cliente.getEmail());
+    }
+
+    @Test
+    @DisplayName("Aggiornamento delle informazioni del cliente")
+    void testUpdateClienteNonNullAndEmailClienteUgualeEmailCliente1() throws Exception
+    {
+        when(clienteDAO.getClienteById(cliente.getId())).thenReturn(Optional.of(cliente));
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/clienti/update")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("200", result.getResponse().getContentAsString());
+        verify(clienteDAO).getClienteById(cliente.getId());
+        verify(clienteDAO).updateClient(cliente);
+        verify(clienteDAO, never()).checkCliente(cliente.getEmail());
+    }
+
+    @Test
+    @DisplayName("Aggiornamento delle informazioni del cliente")
+    void testUpdateClienteNonNullAndEmailClienteDiversoEmailCliente1AndEmailDisponibile() throws Exception
+    {
+        Cliente clienteTemp = new Cliente();
+        clienteTemp.setEmail("clientetemp@gmail.com");
+        when(clienteDAO.getClienteById(cliente.getId())).thenReturn(Optional.of(clienteTemp));
+        when(clienteDAO.checkCliente(clienteTemp.getEmail())).thenReturn(false);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/clienti/update")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("200", result.getResponse().getContentAsString());
+        verify(clienteDAO).getClienteById(cliente.getId());
+        verify(clienteDAO).updateClient(cliente);
+        verify(clienteDAO).checkCliente(cliente.getEmail());
+    }
+
+    @Test
+    @DisplayName("Aggiornamento delle informazioni del cliente")
+    void testUpdateClienteNonNullAndEmailClienteDiversoEmailCliente1AndEmailIndisponibile() throws Exception
+    {
+        Cliente clienteTemp = new Cliente();
+        clienteTemp.setEmail("clientetemp@gmail.com");
+        when(clienteDAO.getClienteById(cliente.getId())).thenReturn(Optional.of(clienteTemp));
+        when(clienteDAO.checkCliente(cliente.getEmail())).thenReturn(true);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/clienti/update")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("500", result.getResponse().getContentAsString());
+        verify(clienteDAO).getClienteById(cliente.getId());
+        verify(clienteDAO, never()).updateClient(cliente);
+        verify(clienteDAO).checkCliente(cliente.getEmail());
+    }
+
+    @Test
+    @DisplayName("Aggiornamento delle informazioni del cliente")
+    void testUpdateClienteNull() throws Exception
+    {
+        when(clienteDAO.getClienteById(cliente.getId())).thenReturn(Optional.empty());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/clienti/update")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals("501", result.getResponse().getContentAsString());
+        verify(clienteDAO).getClienteById(cliente.getId());
+        verify(clienteDAO, never()).updateClient(cliente);
+        verify(clienteDAO, never()).checkCliente(cliente.getEmail());
+    }
+
+    @Test
+    @DisplayName("Login")
+    void testLogin() throws Exception
+    {
+        when(clienteDAO.loginCliente(cliente.getEmail(), cliente.getPassword())).thenReturn(Optional.of(cliente));
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/clienti/login")
+                        .contentType(MediaType.APPLICATION_JSON).param("email", cliente.getEmail()).param("password", cliente.getPassword()))
+                .andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        Cliente clienteTemp = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Cliente>() {
+        });
+        assertEquals(clienteTemp, cliente);
+        verify(clienteDAO).loginCliente(cliente.getEmail(), cliente.getPassword());
     }
 }

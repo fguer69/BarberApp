@@ -163,7 +163,7 @@ class BookTile extends StatelessWidget {
                     Text(appuntamento.cliente!.nominativo),
                     Text(appuntamento.servizio!.tipo),
                     Text(
-                        '${appuntamento.date.toString().substring(0, 11)} ${appuntamento.time.hour}:${appuntamento.time.minute}'),
+                        '${appuntamento.date.toString().substring(0, 11)} ${appuntamento.time.hour}:${appuntamento.time.minute}0'),
                   ],
                 ),
               ),

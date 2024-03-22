@@ -186,7 +186,7 @@ class _ProfiloTitolareState extends State<ProfiloTitolare> {
                           child: Container(
                             padding: const EdgeInsets.only(left: 10, top: 6),
                             width: 316,
-                            height: 63,
+                            height: 75,
                             decoration: ShapeDecoration(
                               color: Color(0x26A4A9AE),
                               shape: RoundedRectangleBorder(
@@ -222,7 +222,7 @@ class _ProfiloTitolareState extends State<ProfiloTitolare> {
                           child: Container(
                             padding: const EdgeInsets.only(left: 10, top: 6),
                             width: 316,
-                            height: 63,
+                            height: 75,
                             decoration: ShapeDecoration(
                               color: Color(0x26A4A9AE),
                               shape: RoundedRectangleBorder(
@@ -301,7 +301,7 @@ class _ProfiloTitolareState extends State<ProfiloTitolare> {
                           child: Container(
                             padding: const EdgeInsets.only(left: 10, top: 6),
                             width: 316,
-                            height: 63,
+                            height: 75,
                             decoration: ShapeDecoration(
                               color: Color(0x26A4A9AE),
                               shape: RoundedRectangleBorder(
@@ -315,6 +315,12 @@ class _ProfiloTitolareState extends State<ProfiloTitolare> {
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.maxLength(16,
                                     errorText: 'Password troppo lunga'),
+                                (value) {
+                                  if (value.toString().length >= 1 &&
+                                      value.toString().length <= 8) {
+                                    return 'Password troppo corta';
+                                  }
+                                }
                               ]),
                               textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(
@@ -341,13 +347,30 @@ class _ProfiloTitolareState extends State<ProfiloTitolare> {
                       setState(() {
                         _loading = true;
                       });
-                      int ControlloMail = await _checkEmail(_formKey
-                          .currentState!.fields['email']!.value
-                          .toString());
-                      setState(() {
-                        _loading = false;
-                        codeEmail = ControlloMail;
-                      });
+                      if (_formKey.currentState!.fields['email']!.value
+                              .toString() ==
+                          Provider.of<UserDataProvider>(context, listen: false)
+                              .titolare
+                              .email) {
+                        setState(() {
+                          _loading = false;
+                          codeEmail = 200;
+                        });
+                      } else if (_formKey.currentState!.fields['email']!.value
+                          .toString()
+                          .isEmpty) {
+                        setState(() {
+                          _loading = false;
+                        });
+                      } else {
+                        int ControlloMail = await _checkEmail(_formKey
+                            .currentState!.fields['email']!.value
+                            .toString());
+                        setState(() {
+                          _loading = false;
+                          codeEmail = ControlloMail;
+                        });
+                      }
                       final validation =
                           _formKey.currentState?.validate() ?? false;
                       if (validation!) {
@@ -356,28 +379,46 @@ class _ProfiloTitolareState extends State<ProfiloTitolare> {
                         });
                         _formKey.currentState!.save();
                         String passwordFinal;
-                        String? passwordHash;
-                        String? password = _formKey
-                            .currentState!.fields['password']?.value
-                            .toString();
+                        String? passwordHash = "";
+                        String? password = "";
+                        if (_formKey.currentState!.fields['password']!.value
+                                .toString()
+                                .isNotEmpty &&
+                            _formKey.currentState!.fields['password']?.value !=
+                                null) {
+                          password = _formKey
+                              .currentState!.fields['password']!.value
+                              .toString();
+                          print("${password} + 1");
+                        } else {
+                          print("${password} + 2");
+                          password = "";
+                        }
                         if (password !=
                                 Provider.of<UserDataProvider>(context,
                                         listen: false)
                                     .titolare
                                     .password &&
+                            password.isNotEmpty &&
                             password != null) {
+                          print("${password} + 3");
                           var bytes = utf8.encode(password);
                           var digest = sha512.convert(bytes);
                           passwordHash = digest.toString();
-                        } else
-                          passwordHash = null;
-                        if (passwordHash == null) {
+                        } else {
+                          print("${password} + 4");
+                          passwordHash = "";
+                        }
+                        if (passwordHash.isEmpty || passwordHash == null) {
+                          print("${password} + 5");
                           passwordFinal = Provider.of<UserDataProvider>(context,
                                   listen: false)
                               .titolare
                               .password;
-                        } else
+                        } else {
+                          print("${password} + 6");
                           passwordFinal = passwordHash;
+                        }
                         Provider.of<UserDataProvider>(context, listen: false)
                                 .titolare
                                 .nome =

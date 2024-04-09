@@ -1,6 +1,7 @@
 import 'package:barberapp_front_end/Model/Dipendente.dart';
 import 'package:barberapp_front_end/color_schemes.g.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -273,46 +274,50 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                           Padding(
                             padding: EdgeInsets.only(top: 60),
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, '/SignupUser_page');
-                              },
-                              child: const Text(
-                                'Non hai un account? Registrati',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 25,
-                                  fontStyle: FontStyle.italic,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.08,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.blue,
-                                  decorationStyle: TextDecorationStyle.double,
+                            child: Container(
+                              width: 380,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/SignupUser_page');
+                                },
+                                backgroundColor: Colors.white54,
+                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100))),
+                                child: const Text(
+                                  'Non hai un account? Registrati',
+                                  style: TextStyle(
+                                    color: Colors.black45,
+                                    fontSize: 25,
+                                    fontStyle: FontStyle.italic,
+                                    fontFamily: 'ABeeZee',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0.08,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 30),
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, '/RecuperaPassword');
-                              },
-                              child: const Text(
-                                'Non ricordi la password? Recuperala!',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 23,
-                                  fontStyle: FontStyle.italic,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.08,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.blue,
-                                  decorationStyle: TextDecorationStyle.double,
+                            child: Container(
+                              width: 380,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/RecuperaPassword');
+                                },
+                                backgroundColor: Colors.white54,
+                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100))),
+                                child: const Text(
+                                  'Non ricordi la password? Recuperala!',
+                                  style: TextStyle(
+                                    color: Colors.black45,
+                                    fontSize: 21,
+                                    fontStyle: FontStyle.italic,
+                                    fontFamily: 'ABeeZee',
+                                    fontWeight: FontWeight.w500,
+                                    height: 0.08,
+                                  ),
                                 ),
                               ),
                             ),

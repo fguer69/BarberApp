@@ -13,7 +13,7 @@ class _RetrofitService implements RetrofitService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://192.168.1.220:8080';
+    baseUrl ??= 'http://localhost:8080';
   }
 
   final Dio _dio;

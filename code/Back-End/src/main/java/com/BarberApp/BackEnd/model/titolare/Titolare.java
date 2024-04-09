@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
+import com.BarberApp.BackEnd.model.salone.Salone;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -22,6 +23,10 @@ public class Titolare {
 	@OneToMany(mappedBy = "titolare", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonManagedReference
 	private List<Servizio> servizi;
+
+
+
+
 	
 	public int getId() {
 		return id;

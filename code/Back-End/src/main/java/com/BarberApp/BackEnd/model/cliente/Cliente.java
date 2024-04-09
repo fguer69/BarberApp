@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 
+import com.BarberApp.BackEnd.model.salone.Salone;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -20,6 +21,14 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonManagedReference(value = "cliente")
 	private List<Appuntamento> appuntamenti;
+
+	@ManyToMany
+	@JoinTable(
+			name = "saloni",
+			joinColumns = @JoinColumn(name = "salone_id"),
+			inverseJoinColumns = @JoinColumn(name = "saloni_id")
+	)
+	private List<Salone> saloni;
 	
 	
 	public int getId() {

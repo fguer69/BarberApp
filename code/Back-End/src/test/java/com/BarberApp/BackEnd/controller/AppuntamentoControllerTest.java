@@ -116,7 +116,7 @@ public class AppuntamentoControllerTest {
     public void saveAppuntamentoSuccesso() throws Exception{
         appuntamento.setDate(DateTime.parse("2024-03-07T16:36:47.912Z"));
         appuntamento.setTime(DateTime.parse("2024-03-07T16:36:47.912Z"));
-        when(appuntamentoDAO.checkAppuntamento(any(), any())).thenReturn(0);
+        when(appuntamentoDAO.checkAppuntamento(appuntamento.getCliente(), appuntamento)).thenReturn(0);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .post("/appuntamenti/save")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento)))
@@ -149,8 +149,7 @@ public class AppuntamentoControllerTest {
         appuntamento.setDate(DateTime.parse("2024-03-07T16:36:47.912Z"));
         appuntamento.setTime(DateTime.parse("2024-03-07T16:36:47.912Z"));
         appuntamenti.add(appuntamento);
-        when(appuntamentoDAO.getAppuntamentiByCliente(any())).thenReturn(appuntamenti);
-        System.out.println(objectMapper.writeValueAsString(appuntamento.getCliente()));
+        when(appuntamentoDAO.getAppuntamentiByCliente(appuntamento.getCliente())).thenReturn(appuntamenti);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .post("/appuntamenti/getAppointment-ByCliente")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appuntamento.getCliente())))
@@ -164,7 +163,7 @@ public class AppuntamentoControllerTest {
         }
         assertTrue(isTrue);
         //Assertions.assertArrayEquals(appuntamenti.toArray(),appuntamentiTemp.toArray());
-        verify(appuntamentoDAO).getAppuntamentiByCliente(any());
+        verify(appuntamentoDAO).getAppuntamentiByCliente(appuntamento.getCliente());
     }
 
     @Test

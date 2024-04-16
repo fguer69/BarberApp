@@ -6,6 +6,7 @@ import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 
 
 import com.BarberApp.BackEnd.model.cliente.Cliente;
+import com.BarberApp.BackEnd.model.salone.Salone;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -23,6 +24,11 @@ public class Dipendente {
 	@OneToMany(mappedBy = "dipendente", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonManagedReference(value = "dipendente")
 	private List<Appuntamento> appuntamenti;
+	@ManyToOne
+	@JoinColumn(name = "salone_id")
+	@JsonManagedReference
+	private Salone salone;
+
 	
 	public int getId() {
 		return id;

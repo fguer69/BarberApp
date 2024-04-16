@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
+import com.BarberApp.BackEnd.model.salone.Salone;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -34,6 +35,10 @@ public class Servizio {
 	@JoinColumn(name = "titolare_id")
 	@JsonBackReference
 	private Titolare titolare;
+	@ManyToOne
+	@JoinColumn(name = "salone_id")
+	@JsonManagedReference
+	private Salone salone;
 	
 	public int getId() {
 		return id;

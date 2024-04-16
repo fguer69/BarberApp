@@ -25,9 +25,10 @@ public class Cliente {
 	@ManyToMany
 	@JoinTable(
 			name = "saloni",
-			joinColumns = @JoinColumn(name = "salone_id"),
+			joinColumns = @JoinColumn(name = "cliente_id"),
 			inverseJoinColumns = @JoinColumn(name = "saloni_id")
 	)
+	@JsonManagedReference
 	private List<Salone> saloni;
 	
 	

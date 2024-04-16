@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 import com.BarberApp.BackEnd.model.dipendente.Dipendente;
+import com.BarberApp.BackEnd.model.salone.Salone;
 import com.BarberApp.BackEnd.model.servizio.Servizio;
 import com.BarberApp.BackEnd.model.titolare.Titolare;
 
@@ -46,6 +47,10 @@ public class Appuntamento {
 	@JoinColumn(name = "servizio_id")
 	@JsonBackReference(value = "servizio")
 	private Servizio servizio;
+	@ManyToOne
+	@JoinColumn(name = "salone_id")
+	@JsonManagedReference
+	private Salone salone;
 	
 	public int getId() {
 		return id;

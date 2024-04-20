@@ -23,6 +23,10 @@ public class Titolare {
 	@OneToMany(mappedBy = "titolare", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonManagedReference
 	private List<Servizio> servizi;
+	@ManyToOne
+	@JoinColumn(name = "salone_id")
+	@JsonManagedReference
+	private Salone salone;
 
 
 

@@ -1,5 +1,6 @@
 package com.BarberApp.BackEnd.model.salone;
 
+import com.BarberApp.BackEnd.model.OrariServizio.OrariServizio;
 import com.BarberApp.BackEnd.model.appuntamento.Appuntamento;
 import com.BarberApp.BackEnd.model.cliente.Cliente;
 import com.BarberApp.BackEnd.model.dipendente.Dipendente;
@@ -33,6 +34,9 @@ public class Salone {
     @OneToMany(mappedBy =  "salone", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonBackReference
     private List<Titolare> titolari;
+    @OneToMany(mappedBy = "salone", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonBackReference
+    private List<OrariServizio> OrariServizio;
 
     public List<Appuntamento> getAppuntamenti() {
         return appuntamenti;

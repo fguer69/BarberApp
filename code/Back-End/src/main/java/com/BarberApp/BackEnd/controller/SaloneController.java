@@ -5,6 +5,7 @@ import com.BarberApp.BackEnd.model.salone.SaloneDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class SaloneController {
     public List<Salone> getAllsaloni(){return saloneDAO.getAll();}
 
     @PostMapping("/salone/save")
-    public int saveSalone(Salone salone){
+    public int saveSalone(@RequestBody Salone salone){
         if(saloneDAO.checkSalone(salone)){
             saloneDAO.saveSalone(salone);
             return 200;
@@ -27,8 +28,14 @@ public class SaloneController {
             return 500;
     }
     @PostMapping("/salone/delete")
-    public int deleteSalone(Salone salone){
+    public int deleteSalone(@RequestBody  Salone salone){
         saloneDAO.deleteSalone(salone);
+        return 200;
+    }
+
+    @PostMapping("/salone/update")
+    public int updateSalone(@RequestBody  Salone salone){
+        saloneDAO.update(salone);
         return 200;
     }
 }

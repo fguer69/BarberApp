@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public class SaloneDAO {
     @Autowired
-    SaloneRepository repository;
+    private SaloneRepository repository;
 
     public List<Salone> getAll(){
         return repository.findAll();
@@ -28,6 +28,10 @@ public class SaloneDAO {
         else
             return true;
 
+    }
+
+    public void update(Salone salone){
+        repository.save(salone);
     }
 
 }
